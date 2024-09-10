@@ -1,19 +1,32 @@
-import { Button } from "@/components/ui/button";
+"use client";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { useCreateAuthFormListner } from "@/lib/eventListners/authFormListner";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useState } from "react";
 
 export function Modal({
   children,
-  modalComponent,
+  ModalComponent,
+  modelProps,
 }: React.PropsWithChildren & {
-  modalComponent: React.ReactNode;
+  ModalComponent: React.ElementType;
+  modelProps?: any;
 }) {
+  const [open, setOpen] = useState<boolean>(false);
+  // useCreateAuthFormListner(setOpen);
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
+
       <DialogContent className="sm:max-w-[425px]">
         <DialogTitle>{""}</DialogTitle>
-        {modalComponent}
+        {
+          <ModalComponent
+            isOpen={open}
+            modelStateSetter={setOpen}
+            modelProps={modelProps}
+          />
+        }
       </DialogContent>
     </Dialog>
   );

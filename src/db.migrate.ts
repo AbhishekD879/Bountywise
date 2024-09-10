@@ -8,5 +8,4 @@ const migrateDb = async () => {
   await pool.end();
 };
 
-migrateDb()
-
+migrateDb();

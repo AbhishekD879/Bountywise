@@ -4,7 +4,7 @@ import { ContactIcon, CheckIcon, ConciergeBellIcon } from "lucide-react";
 
 export default function Services() {
   return (
-    <div className="grid gap-8 mt-12 md:grid-cols-3">
+    <div className="grid gap-8 mt-12 md:grid-cols-3 m-auto">
       {CONSTANT.SERVICES.map((service) => {
         return <ServiceCard key={service.title} {...service} />;
       })}

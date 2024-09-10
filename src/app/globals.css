@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-*,*::after,*::before{
+*,
+*::after,
+*::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-size: 16px;
 }
 
+::-webkit-scrollbar {
+  width: 0px;
+}
 
 @layer base {
   :root {
@@ -75,7 +80,6 @@
     --color-white: #ffffff;
     --color-gray: #d4d4d4;
     --color-blue-gray: #46515e;
-
   }
 }
 
@@ -86,7 +90,4 @@
   body {
     @apply bg-background text-foreground;
   }
-
-
 }
-

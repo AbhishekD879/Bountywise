@@ -11,8 +11,8 @@ type CONSTANT = {
   BRAND: string;
   POST_A_BOUNTY_CTA: string;
   JOIN_AS_A_HUNTER_CTA: string;
-  LOGIN_CTA:string;
-  SIGNUP_CTA:string;
+  LOGIN_CTA: string;
+  SIGNUP_CTA: string;
   SERVICES: Service[];
 };
 
@@ -58,11 +58,11 @@ const services: Service[] = [
 const CONSTANT: CONSTANT = {
   //+
   SERVICES: services,
-  BRAND:'Bountywise',
-  POST_A_BOUNTY_CTA:'Post a Bounty',
-  JOIN_AS_A_HUNTER_CTA:'Join as a Hunter',
-  LOGIN_CTA:"Login",
-  SIGNUP_CTA:"Sign Up",
+  BRAND: "Bountywise",
+  POST_A_BOUNTY_CTA: "Post a Bounty",
+  JOIN_AS_A_HUNTER_CTA: "Join as a Hunter",
+  LOGIN_CTA: "Login",
+  SIGNUP_CTA: "Sign Up",
 };
 
 export default CONSTANT;

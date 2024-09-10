@@ -42,7 +42,7 @@ export const sessionTable = pgTable("session", {
 export const roleTable = pgTable("roles", {
   id: uuid("id").primaryKey().defaultRandom(),
   type: varchar("type", { length: 128 }).notNull(), // 'bounty_poster', 'hunter'
-  permission:text("permission")
+  permission: text("permission"),
 });
 
 // Bounties table (posted by Bounty Posters)
@@ -60,7 +60,7 @@ export const bountyTable = pgTable("bounties", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   deadline: timestamp("deadline"), // Optional deadline for the bounty
   communicationMethod: varchar("communication_method", { length: 128 }).default(
-    "video"
+    "video",
   ), // Default communication method
 });
 

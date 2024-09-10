@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import Header from "./Header";
 
 export default function Hero() {
   return (

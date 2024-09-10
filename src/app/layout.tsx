@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "./_components/Header";
-import 'cross-fetch/polyfill';
+import { Header } from "./_components/Header";
+import "cross-fetch/polyfill";
+import StoreProvider from "./StoreProvider";
+import { Cta } from "./_components/Header/HeaderCta";
+import { Logo } from "./_components/Header/Logo";
+import { LoginCta } from "./_components/Header/LoginCta";
+import { SignUpCta } from "./_components/Header/SignUpCta";
 // import eventsource from 'eventsource';
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +20,6 @@ const fontHeading = Inter({
   display: "swap",
   variable: "--font-heading",
 });
-
-
 
 const fontBody = Inter({
   subsets: ["latin"],
@@ -34,16 +37,16 @@ export default function RootLayout({
         className={`${fontHeading.variable}
          ${fontBody.variable} bg-lightGray`}
       >
-        <Header>
-          <Header.Logo />
-          {Header.Cta && (
-            <Header.Cta>
-              {Header.Cta?.PostABountyCta && <Header.Cta.PostABountyCta />}
-              {Header.Cta?.JoinAsAHunterCta && <Header.Cta.JoinAsAHunterCta />}
-            </Header.Cta>
-          )}
-        </Header>
-        {children}
+        <StoreProvider>
+          <Header>
+            <Logo />
+            <Cta>
+              <LoginCta />
+              <SignUpCta />
+            </Cta>
+          </Header>
+          {children}
+        </StoreProvider>
       </body>
     </html>
   );

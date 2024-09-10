@@ -15,10 +15,11 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
-      email:attributes.email,
-      firstName:attributes.firstName,
-      lastName:attributes.lastName,
-      profilePicture:attributes.profilePicture
+      email: attributes.email,
+      firstName: attributes.firstName,
+      lastName: attributes.lastName,
+      profilePicture: attributes.profilePicture,
+      roleId: attributes.roleId,
     };
   },
 });
@@ -29,4 +30,3 @@ declare module "lucia" {
     DatabaseUserAttributes: Partial<typeof userTable>;
   }
 }
-
