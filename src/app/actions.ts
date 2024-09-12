@@ -2,11 +2,14 @@
 import loginSchema from "@/lib/_definitions/loginSchema";
 import registerSchema from "@/lib/_definitions/registerSchema";
 import { lucia } from "@/lib/lucia";
+import { google } from "@/lib/oAuth/googleOAuth";
 import { Roles } from "@/lib/roles";
 import db from "@/lib/tembo.db";
 import { userTable } from "@/schema";
+import { generateCodeVerifier, generateState } from "arctic";
 import { sql } from "drizzle-orm";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 import { v4 } from "uuid";
 
@@ -53,6 +56,12 @@ export async function login(previousState: any, formdata: FormData) {
 
     if (!user) {
       returnObject.error = "User not found. Please register.";
+      return returnObject;
+    }
+
+    if (!user.hashedPassword) {
+      returnObject.error =
+        "Click Google/Apple buttons for sign up; no email/password needed";
       return returnObject;
     }
 
@@ -166,8 +175,30 @@ export async function register(previousState: any, formdata: FormData) {
   return returnObject;
 }
 
+// Logout Route
 export async function logout() {
   const blankSession = lucia.createBlankSessionCookie();
   cookies().set(blankSession.name, blankSession.value, blankSession.attributes);
+  cookies().set("google_code_verifier", "");
+  cookies().set("google_state", "");
   return true;
+}
+
+// Google auth
+export async function googleAuth() {
+  console.log("google action");
+  const state = generateState();
+  const codeVerifier = generateCodeVerifier();
+  const consentUrl = await google.createAuthorizationURL(state, codeVerifier, {
+    scopes: ["email", "profile", "openid"],
+  });
+  cookies().set("google_state", state, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+  cookies().set("google_code_verifier", codeVerifier, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  });
+  redirect(consentUrl.toString());
 }

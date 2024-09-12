@@ -24,11 +24,11 @@ export const Cta: React.FC<CtaProps> = ({ children }) => {
     return <Skeleton className="size-10 rounded-full" />;
   }
 
-  if (user.profilePicture) {
+  if (user.email) {
     return (
       <div>
         <ProfileDropdown
-          url={user.profilePicture}
+          url={user.profilePicture!}
           firstName={user.firstName!}
         />
       </div>

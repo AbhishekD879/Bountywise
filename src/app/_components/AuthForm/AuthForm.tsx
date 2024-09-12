@@ -1,11 +1,14 @@
 "use client";
 import Image from "next/image";
 import CONSTANT from "@/constants";
-import { login, register } from "../actions"; // Import login and register actions
+import { login, register } from "../../actions"; // Import login and register actions
 import { useFormState, useFormStatus } from "react-dom"; // Hooks for form state and status
-import { Ban, InfoIcon } from "lucide-react"; // Icon for error messages
+import { InfoIcon } from "lucide-react"; // Icon for error messages
 import { Dispatch, SetStateAction, useState } from "react";
 import { useAuth } from "@/lib/hooks/useAuth";
+import DisabledWrapper from "./DisabledWrapper";
+import GoogleAuth from "./GoogleAuth";
+import AppleAuth from "./AppleAuth";
 
 interface modelProps {
   isOpen: boolean;
@@ -138,11 +141,10 @@ export default function AuthForm(props: modelProps) {
 
           {/* Submit Button */}
           <Submit isSignUpMode={isSignUpMode} />
-          <SocialSignInButtons />
         </form>
 
         {/* Social Sign In Buttons */}
-
+        <SocialSignInButtons />
         {/* Toggle Sign In/Sign Up Mode */}
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-500">
@@ -180,66 +182,10 @@ const Submit = ({ isSignUpMode }: { isSignUpMode: boolean }) => {
 
 // Social Sign In Buttons Component
 const SocialSignInButtons = () => {
-  const { pending } = useFormStatus();
   return (
     <div>
-      {/* Sign In with Google */}
-      <button
-        disabled={pending}
-        type="button"
-        className="bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:ring-[#4285F4]/50 dark:focus:ring-[#4285F4]/55 flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm mt-2 relative"
-      >
-        <svg
-          className="mr-2 mt-1 -ml-1 w-4 h-4"
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fab"
-          data-icon="google"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 488 512"
-        >
-          <path
-            fill="currentColor"
-            d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"
-          ></path>
-        </svg>
-        Sign in with Google
-        {pending && <DisabledWrapper />}
-      </button>
-
-      {/* Sign In with Apple */}
-      <button
-        disabled={pending}
-        type="button"
-        className="bg-[#050708] hover:bg-[#050708]/90 focus:ring-4 focus:ring-[#050708]/50 dark:focus:ring-[#050708]/50 dark:hover:bg-[#050708]/30 flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm mt-2 relative"
-      >
-        <svg
-          className="mr-2 -ml-1 w-5 h-5"
-          aria-hidden="true"
-          focusable="false"
-          data-prefix="fab"
-          data-icon="apple"
-          role="img"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 384 512"
-        >
-          <path
-            fill="currentColor"
-            d="M318.7 268c-.2-37.2 16.5-64.6 51.5-86.4-19-27.8-47.6-43.6-85-48.3-35.6-4.3-74.3 21.5-87 21.5-12.9 0-55.5-20.7-81.1-20.1-41.7.6-82 24.7-103.9 62.8-44.6 77.5-11.5 192.3 31.7 255.1 21.2 31.1 46.4 66 79.6 64.7 31.6-1.3 43.5-20.5 81-20.7 37.3-.2 48.2 20.6 81.1 20 33.6-.6 54.8-31.5 75.2-62.7 12.8-19.6 17.5-29.6 27.5-51.7-72.5-27.4-85.2-127.5-12.8-168.4z"
-          ></path>
-        </svg>
-        Sign in with Apple
-        {pending && <DisabledWrapper />}
-      </button>
-    </div>
-  );
-};
-
-const DisabledWrapper = () => {
-  return (
-    <div className="w-full h-full backdrop:blur-lg flex justify-center items-center absolute z-10 top-0 left-0">
-      <Ban color="red" height="24" width="24" />
+      <GoogleAuth />
+      <AppleAuth />
     </div>
   );
 };

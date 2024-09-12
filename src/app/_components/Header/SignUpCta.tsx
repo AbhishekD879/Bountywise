@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Modal } from "../Modal";
 import CONSTANT from "@/constants";
-import AuthForm from "../AuthForm";
+import AuthForm from "../AuthForm/AuthForm";
 
 // Define JoinAsAHunterCta component
 export const SignUpCta: React.FC = () => {

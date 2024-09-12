@@ -7,8 +7,6 @@ import {
   timestamp,
   boolean,
   text,
-  foreignKey,
-  primaryKey,
 } from "drizzle-orm/pg-core";
 
 // Users table (Bounty Posters and Hunters)
@@ -17,7 +15,7 @@ export const userTable = pgTable("users", {
   firstName: varchar("first_name", { length: 256 }),
   lastName: varchar("last_name", { length: 256 }),
   email: varchar("email", { length: 256 }).notNull().unique(),
-  hashedPassword: varchar("hashed_password", { length: 256 }).notNull(),
+  hashedPassword: varchar("hashed_password", { length: 256 }),
   roleId: uuid("role_id")
     .notNull()
     .references(() => roleTable.id), // Foreign Key referencing role
@@ -31,7 +29,7 @@ export const sessionTable = pgTable("session", {
   id: text("id").primaryKey(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => userTable.id),
+    .references(() => userTable.id, { onDelete: "cascade" }),
   expiresAt: timestamp("expires_at", {
     withTimezone: true,
     mode: "date",
@@ -48,7 +46,9 @@ export const roleTable = pgTable("roles", {
 // Bounties table (posted by Bounty Posters)
 export const bountyTable = pgTable("bounties", {
   id: uuid("id").primaryKey(),
-  posterId: uuid("poster_id").references(() => userTable.id), // FK to users table (Bounty Poster)
+  posterId: uuid("poster_id").references(() => userTable.id, {
+    onDelete: "cascade",
+  }), // FK to users table (Bounty Poster)
   title: varchar("title", { length: 256 }).notNull(),
   description: text("description").notNull(),
   tags: text("tags")
@@ -69,7 +69,7 @@ export const hunterProfileTable = pgTable("hunter_profiles", {
   id: uuid("id").primaryKey(),
   userId: uuid("user_id")
     .notNull()
-    .references(() => userTable.id), // FK to users table (Hunter)
+    .references(() => userTable.id, { onDelete: "cascade" }), // FK to users table (Hunter)
   fieldOfExpertise: text("field_of_expertise")
     .array()
     .default(sql`ARRAY[]::text[]`), // Example: 'Law', 'Finance', 'Tech'
@@ -89,7 +89,7 @@ export const bountyAcceptanceTable = pgTable("bounty_acceptance", {
     .references(() => bountyTable.id)
     .notNull(), // FK to bounties table
   hunterId: uuid("hunter_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to users (Hunters)
   acceptedAt: timestamp("accepted_at").defaultNow().notNull(),
   status: varchar("status", { length: 128 }).default("pending").notNull(), // 'pending', 'accepted', 'completed'
@@ -100,7 +100,7 @@ export const bountyAcceptanceTable = pgTable("bounty_acceptance", {
 export const notificationTable = pgTable("notifications", {
   id: uuid("id").primaryKey(),
   userId: uuid("user_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to users table
   message: text("message").notNull(),
   type: varchar("type", { length: 128 }).default("info"), // 'info', 'warning', 'success', 'error'
@@ -115,7 +115,7 @@ export const consultationSessionTable = pgTable("consultation_sessions", {
     .references(() => bountyTable.id)
     .notNull(),
   hunterId: uuid("hunter_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Hunter's user ID
   startTime: timestamp("start_time").notNull(),
   endTime: timestamp("end_time"),
@@ -135,10 +135,10 @@ export const paymentTable = pgTable("payments", {
     .references(() => consultationSessionTable.id)
     .notNull(), // FK to consultation sessions
   posterId: uuid("poster_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Bounty Poster
   hunterId: uuid("hunter_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Hunter
   amount: integer("amount").notNull(),
   paymentStatus: varchar("payment_status", { length: 128 })
@@ -152,13 +152,13 @@ export const paymentTable = pgTable("payments", {
 export const reviewTable = pgTable("reviews", {
   id: uuid("id").primaryKey(),
   bountyId: uuid("bounty_id")
-    .references(() => bountyTable.id)
+    .references(() => bountyTable.id, { onDelete: "cascade" })
     .notNull(),
   reviewerId: uuid("reviewer_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Users (either Bounty Poster or Hunter)
   revieweeId: uuid("reviewee_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Users (Hunter or Bounty Poster)
   rating: integer("rating").notNull(), // Rating from 1 to 5
   comment: text("comment"),
@@ -173,10 +173,10 @@ export const disputeTable = pgTable("disputes", {
     .references(() => consultationSessionTable.id)
     .notNull(), // FK to consultation sessions
   posterId: uuid("poster_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Bounty Poster
   hunterId: uuid("hunter_id")
-    .references(() => userTable.id)
+    .references(() => userTable.id, { onDelete: "cascade" })
     .notNull(), // FK to Hunter
   reason: text("reason").notNull(), // Reason for the dispute
   status: varchar("status", { length: 128 }).default("open").notNull(), // 'open', 'resolved', 'closed'

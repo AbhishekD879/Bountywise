@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Modal } from "../Modal";
 import CONSTANT from "@/constants";
-import AuthForm from "../AuthForm";
+import AuthForm from "../AuthForm/AuthForm";
 
 // Define PostABountyCta component
 export const LoginCta: React.FC = () => {

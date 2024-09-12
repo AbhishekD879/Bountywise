@@ -19,8 +19,13 @@ export const LogoutForm = () => {
   return (
     <DropdownMenuItem className="cursor-pointer" asChild>
       <form action={logoutAction}>
-        <LogOut className="mr-2 h-4 w-4" />
-        <button type="submit">Log out</button>
+        <button
+          className="flex justify-start items-center w-full"
+          type="submit"
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Log out
+        </button>
       </form>
     </DropdownMenuItem>
   );

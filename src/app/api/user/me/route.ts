@@ -6,11 +6,15 @@ import { NextResponse } from "next/server";
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value || null;
   if (!sessionId) {
+    cookies().set("google_code_verifier", "");
+    cookies().set("google_state", "");
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
   const { session, user } = await lucia.validateSession(sessionId);
   if (!session) {
+    cookies().set("google_code_verifier", "");
+    cookies().set("google_state", "");
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
