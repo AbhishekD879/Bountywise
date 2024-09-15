@@ -156,6 +156,7 @@ export async function register(previousState: any, formdata: FormData) {
     // Create a session and session cookie
     const session = await lucia.createSession(userId, {
       expiresIn: 60 * 60 * 24 * 30,
+      httpOnly: true,
     });
     const sessionCookie = lucia.createSessionCookie(session.id);
     cookies().set(
