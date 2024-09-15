@@ -9,6 +9,7 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import DisabledWrapper from "./DisabledWrapper";
 import GoogleAuth from "./GoogleAuth";
 import AppleAuth from "./AppleAuth";
+import { useCreateAuthFormListner } from "@/lib/eventListners/authFormListner";
 
 interface modelProps {
   isOpen: boolean;
@@ -18,6 +19,9 @@ interface modelProps {
 
 export default function AuthForm(props: modelProps) {
   const { modelStateSetter, modelProps } = props;
+  if (!modelProps.isSignUpMode) {
+    modelProps.isSignUpMode = false;
+  }
   const [isSignUpMode, setIsSignUpMode] = useState(modelProps.isSignUpMode); // Toggle between signup and login mode
   const [state, authAction] = useFormState(
     isSignUpMode ? register : login, // Dynamically choose login or register action
@@ -75,6 +79,7 @@ export default function AuthForm(props: modelProps) {
                 name="email"
                 type="email"
                 autoComplete="email"
+                defaultValue="test@test.com"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-accentOrange sm:text-sm sm:leading-6 focus-visible:outline-none px-2"
               />
             </div>
@@ -108,6 +113,7 @@ export default function AuthForm(props: modelProps) {
                 id="password"
                 name="password"
                 type="password"
+                defaultValue="test1@test"
                 autoComplete="current-password"
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-accentOrange/60 sm:text-sm sm:leading-6 focus-visible:outline-none px-2"
               />

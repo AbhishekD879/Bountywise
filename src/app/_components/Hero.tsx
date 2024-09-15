@@ -12,8 +12,11 @@ export default function Hero() {
       </div>
       <div className="flex space-x-4">
         <Button className="bg-[#ff5722] text-[#ffffff]">Post a Bounty</Button>
-        <Link href="/hunter/profile" className="bg-[#46515e] text-[#ffffff]">
-          Enroll as a Hunter
+
+        <Link href="hunter/enrollment">
+          <Button className="bg-[#46515e] text-[#ffffff]">
+            Enroll as a Hunter
+          </Button>
         </Link>
       </div>
     </div>

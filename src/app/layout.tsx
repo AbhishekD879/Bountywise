@@ -35,7 +35,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${fontHeading.variable}
-         ${fontBody.variable} bg-lightGray`}
+         ${fontBody.variable} bg-lightGray h-[100dvh]`}
       >
         <StoreProvider>
           <Header>

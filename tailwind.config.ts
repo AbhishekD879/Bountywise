@@ -18,7 +18,7 @@ const config: Config = {
         lightGray: "var(--color-light-gray)",
         darkGray: "var(--color-dark-gray)",
         accentOrange: "hsl(var(--color-accent-orange))",
-        white: "var(--color-white)",
+        white: "hsl(var(--color-white))",
         gray: "var(--color-gray)",
         blueGray: "var(--color-blue-gray)",
         background: "hsl(var(--background))",
@@ -66,6 +66,13 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+    },
+    keyframes: {
+      shimmer: {
+        "100%": {
+          transform: "translateX(100%)",
+        },
       },
     },
   },

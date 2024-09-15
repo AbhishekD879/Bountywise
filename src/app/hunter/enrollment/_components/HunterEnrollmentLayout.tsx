@@ -7,13 +7,15 @@ export default function HunterEnrollmentLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Card className="w-full max-w-2xl mx-auto">
-      <CardHeader>
-        <CardTitle className="text-2xl font-bold text-center">
-          Hunter Profile Setup
-        </CardTitle>
-      </CardHeader>
-      <CardContent>{children}</CardContent>
-    </Card>
+    <div className="py-4">
+      <Card className="w-full max-w-2xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold text-center">
+            Hunter Profile Setup
+          </CardTitle>
+        </CardHeader>
+        <CardContent>{children}</CardContent>
+      </Card>
+    </div>
   );
 }

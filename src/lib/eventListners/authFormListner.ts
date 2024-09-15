@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 const openAuthFormEventName = "OPEN_AUTH_FORM";
 const closeAuthEventName = "CLOSE_AUTH_FORM";

@@ -38,7 +38,7 @@ export default function HunterEnrollmentExpertise({
 
   return (
     <div className="space-y-2">
-      <Label>Fields of Expertise (up to 5)</Label>
+      <Label>Fields of Expertise</Label>
       <div className="flex flex-wrap gap-2 mb-2">
         {predefinedExpertise.map((field) => (
           <Badge

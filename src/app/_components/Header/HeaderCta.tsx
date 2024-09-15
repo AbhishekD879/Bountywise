@@ -4,6 +4,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAuth } from "@/lib/hooks/useAuth";
 import { useEffect } from "react";
 import { ProfileDropdown } from "./ProfileDropDown";
+import HeaderMessages from "./HeaderMessages";
+import HeaderNotification from "./HeaderNotification";
 
 // Define type for the Cta component
 interface CtaProps {
@@ -26,7 +28,9 @@ export const Cta: React.FC<CtaProps> = ({ children }) => {
 
   if (user.email) {
     return (
-      <div>
+      <div className="flex gap-5 items-center">
+        <HeaderMessages />
+        <HeaderNotification />
         <ProfileDropdown
           url={user.profilePicture!}
           firstName={user.firstName!}

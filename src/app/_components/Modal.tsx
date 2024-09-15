@@ -13,7 +13,7 @@ export function Modal({
   modelProps?: any;
 }) {
   const [open, setOpen] = useState<boolean>(false);
-  // useCreateAuthFormListner(setOpen);
+  useCreateAuthFormListner(setOpen);
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>

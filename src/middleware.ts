@@ -1,34 +1,36 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { lucia } from "./lib/lucia";
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest, res: NextResponse) {
-  const sessionId = request.cookies.get(lucia.sessionCookieName)?.value ?? null;
-  if (!sessionId) {
-    res.cookies.delete("google_code_verifier");
-    res.cookies.delete("google_state");
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-  const { session, user } = await lucia.validateSession(sessionId);
-  if (!session) {
-    res.cookies.delete("google_code_verifier");
-    res.cookies.delete("google_state");
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-  }
-  const response = NextResponse.next();
-  if (session.fresh) {
-    // Refreshing the User Session
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    response.cookies.set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
+  const path = request.nextUrl.pathname;
+  const url = request.nextUrl.clone();
+
+  // console.log("url",url)
+  if (path.startsWith("/private")) {
+    // Extract all cookies from the request header
+    const cookies = request.headers.get("cookie") || "";
+
+    // Forward the cookie to the validate-cookie API
+    const cookieValidationResponse = await fetch(
+      `${url.origin}/api/auth/validate-cookie`,
+      {
+        headers: {
+          cookie: cookies, // Set the cookie header for the API request
+        },
+      },
     );
+
+    const result = await cookieValidationResponse.json();
+
+
+    // You can perform a redirect if the cookie is not valid
+    if (!result.isValid) {
+      return NextResponse.redirect(new URL("/", request.url));
+    }
   }
-  return response;
 }
 // // See "Matching Paths" below to learn more
-export const config = {
-  matcher: ["/api/private/:path*"],
-};
+// export const config = {
+//   matcher: ["/api/private/:path*"],
+// };

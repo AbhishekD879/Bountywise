@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function HunterEnrollmentForm() {
   const [fullName, setFullName] = useState("");
-  const [profilePicture, setProfilePicture] = useState<File | null>(null);
+  const [profilePicture, setProfilePicture] = useState<string | null>(null);
   const [expertise, setExpertise] = useState<string[]>([]);
   const [bio, setBio] = useState("");
   const [pricePerMinute, setPricePerMinute] = useState("");
@@ -45,20 +45,6 @@ export default function HunterEnrollmentForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-2">
-        <Label htmlFor="fullName">Full Name</Label>
-        <Input
-          id="fullName"
-          placeholder="Enter your full name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-          required
-          minLength={2}
-          maxLength={256}
-          className="border-gray-300"
-        />
-      </div>
-
       <HunterEnrollmentProfilePicture
         profilePicture={profilePicture}
         setProfilePicture={setProfilePicture}
@@ -89,10 +75,10 @@ export default function HunterEnrollmentForm() {
         setPricePerHour={setPricePerHour}
       />
 
-      <HunterEnrollmentAvailability
+      {/* <HunterEnrollmentAvailability
         availability={availability}
         setAvailability={setAvailability}
-      />
+      /> */}
 
       <Button
         type="submit"
