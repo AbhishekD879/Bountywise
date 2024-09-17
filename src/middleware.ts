@@ -23,7 +23,6 @@ export async function middleware(request: NextRequest, res: NextResponse) {
 
     const result = await cookieValidationResponse.json();
 
-
     // You can perform a redirect if the cookie is not valid
     if (!result.isValid) {
       return NextResponse.redirect(new URL("/", request.url));

@@ -27,7 +27,7 @@ const sidebarItems = [
 ];
 
 export default function BountyWiseSidebar({ activeTab, userType }: any) {
- const [pathname , setPathname] = useState(sidebarItems?.at(0)?.path)
+  const [pathname, setPathname] = useState(sidebarItems?.at(0)?.path);
   return (
     // hover:w-64
     <aside className="w-64 bg-[#303841] flex flex-col items-center py-8 transition-all duration-300  group h-full">
@@ -45,9 +45,10 @@ export default function BountyWiseSidebar({ activeTab, userType }: any) {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button onClick={()=>setPathname(item.path)}
+                      <button
+                        onClick={() => setPathname(item.path)}
                         className={`flex items-center w-full py-3 px-4 transition-colors ${
-                          pathname===item.path
+                          pathname === item.path
                             ? "bg-[#ff5722] text-[#ffffff]"
                             : "text-[#d4d4d4] hover:bg-[#46515e] hover:text-[#ffffff]"
                         }`}
