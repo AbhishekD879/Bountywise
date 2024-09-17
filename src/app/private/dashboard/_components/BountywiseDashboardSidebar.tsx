@@ -1,5 +1,5 @@
 // components/BountyWiseSidebar.tsx (Client Component)
-"use server";
+"use client";
 import {
   Zap,
   Home,
@@ -15,7 +15,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
-import { headers } from "next/headers";
+import { useState } from "react";
+// import { headers } from "next/headers";
 
 const sidebarItems = [
   { name: "Dashboard", icon: Home, path: "/" },
@@ -25,11 +26,8 @@ const sidebarItems = [
   { name: "Analytics", icon: BarChart2, path: "/analytics" },
 ];
 
-export default async function BountyWiseSidebar({ activeTab, userType }: any) {
-  const heads = headers();
-
-  const pathname = new URL(heads.get("referer")!).pathname;
-  console.log("sidebar path", pathname);
+export default function BountyWiseSidebar({ activeTab, userType }: any) {
+ const [pathname , setPathname] = useState(sidebarItems?.at(0)?.path)
   return (
     // hover:w-64
     <aside className="w-64 bg-[#303841] flex flex-col items-center py-8 transition-all duration-300  group h-full">
@@ -47,9 +45,9 @@ export default async function BountyWiseSidebar({ activeTab, userType }: any) {
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button
+                      <button onClick={()=>setPathname(item.path)}
                         className={`flex items-center w-full py-3 px-4 transition-colors ${
-                          pathname.endsWith(item.path)
+                          pathname===item.path
                             ? "bg-[#ff5722] text-[#ffffff]"
                             : "text-[#d4d4d4] hover:bg-[#46515e] hover:text-[#ffffff]"
                         }`}
