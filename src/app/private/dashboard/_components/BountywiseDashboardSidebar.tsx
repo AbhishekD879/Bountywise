@@ -1,26 +1,13 @@
 // components/BountyWiseSidebar.tsx (Client Component)
 "use client";
 import {
-  Bell,
-  LogOut,
-  Settings,
   User,
-  Video,
-  Phone,
   MessageSquare,
   DollarSign,
-  Clock,
-  Star,
-  Search,
-  Plus,
   Zap,
-  Award,
-  TrendingUp,
   BarChart2,
   Home,
   Briefcase,
-  PieChart,
-  HelpCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,11 +16,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-// import { headers } from "next/headers";
 
 const sidebarItems = [
   { name: "Dashboard", icon: Home, path: "/" },
-  { name: "Bounties", icon: Briefcase, path: "/my-bounties" },
+  { name: "myBounties", icon: Briefcase, path: "/myBounties" },
   { name: "Messages", icon: MessageSquare, path: "/messages" },
   { name: "Payments", icon: DollarSign, path: "/payments" },
   { name: "Analytics", icon: BarChart2, path: "/analytics" },

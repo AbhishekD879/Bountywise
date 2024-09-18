@@ -1,50 +1,7 @@
-import React, { useState } from "react";
-import {
-  Bell,
-  LogOut,
-  Settings,
-  User,
-  Video,
-  Phone,
-  MessageSquare,
-  DollarSign,
-  Clock,
-  Star,
-  Search,
-  Plus,
-  Zap,
-  Award,
-  TrendingUp,
-  BarChart2,
-  Home,
-  Briefcase,
-  PieChart,
-  HelpCircle,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import React from "react";
+import { DollarSign, Clock, TrendingUp } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export default function Page() {
   return (

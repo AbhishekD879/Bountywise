@@ -1,25 +1,4 @@
-import {
-  Bell,
-  LogOut,
-  Settings,
-  User,
-  Video,
-  Phone,
-  MessageSquare,
-  DollarSign,
-  Clock,
-  Star,
-  Search,
-  Plus,
-  Zap,
-  Award,
-  TrendingUp,
-  BarChart2,
-  Home,
-  Briefcase,
-  PieChart,
-  HelpCircle,
-} from "lucide-react";
+import { Video, Phone, MessageSquare, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
