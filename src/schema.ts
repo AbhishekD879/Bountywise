@@ -60,7 +60,7 @@ export const bountyTable = pgTable("bounties", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   deadline: timestamp("deadline"), // Optional deadline for the bounty
   communicationMethod: varchar("communication_method", { length: 128 }).default(
-    "chat",
+    "chat"
   ), // Default communication method
 });
 
@@ -180,6 +180,31 @@ export const disputeTable = pgTable("disputes", {
     .notNull(), // FK to Hunter
   reason: text("reason").notNull(), // Reason for the dispute
   status: varchar("status", { length: 128 }).default("open").notNull(), // 'open', 'resolved', 'closed'
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const currencyTable = pgTable("currencies", {
+  id: uuid("id").primaryKey(),
+  name: varchar("name", { length: 128 }).notNull(),
+  symbol: varchar("symbol", { length: 10 }).notNull(),
+  code: varchar("code", { length: 10 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const languageTable = pgTable("languages", {
+  id: uuid("id").primaryKey(),
+  name: varchar("name", { length: 128 }).notNull(),
+  code: varchar("code", { length: 10 }).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const tagTable = pgTable("tags", {
+  id: uuid("id").primaryKey(),
+  name: varchar("name", { length: 128 }).notNull(),
+  popularity: integer("popularity").default(0).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
