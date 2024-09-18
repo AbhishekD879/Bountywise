@@ -270,7 +270,7 @@ export default function BountyListingScreen() {
                       Looking for an experienced React developer to help
                       optimize the performance of a complex dashboard component.
                       The ideal candidate should have a strong understanding of
-                      React's rendering lifecycle and experience with
+                      React&apos;s rendering lifecycle and experience with
                       performance profiling tools.
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
