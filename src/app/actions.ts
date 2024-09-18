@@ -180,8 +180,8 @@ export async function register(previousState: any, formdata: FormData) {
 export async function logout() {
   const blankSession = lucia.createBlankSessionCookie();
   cookies().set(blankSession.name, blankSession.value, blankSession.attributes);
-  cookies().set("google_code_verifier", "");
-  cookies().set("google_state", "");
+  cookies().delete("google_code_verifier");
+  cookies().delete("google_state");
   return true;
 }
 
