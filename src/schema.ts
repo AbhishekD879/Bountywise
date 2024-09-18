@@ -60,7 +60,7 @@ export const bountyTable = pgTable("bounties", {
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   deadline: timestamp("deadline"), // Optional deadline for the bounty
   communicationMethod: varchar("communication_method", { length: 128 }).default(
-    "video",
+    "chat",
   ), // Default communication method
 });
 
