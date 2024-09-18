@@ -11,7 +11,7 @@ export default function Hero() {
         </p>
       </div>
       <div className="flex space-x-4">
-        <Link href="testscreens/createBounty">
+        <Link href="/private/new-bounty">
           <Button className="bg-[#ff5722] text-[#ffffff]">Post a Bounty</Button>
         </Link>
 

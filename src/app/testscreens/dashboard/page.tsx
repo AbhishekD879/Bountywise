@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import {
   Bell,
@@ -366,7 +366,7 @@ function ActiveBountiesDashboard({
                 </div>
               </CardContent>
             </Card>
-          )
+          ),
         )}
       </div>
     </div>
@@ -586,7 +586,7 @@ function AnalyticsDashboard() {
                       ></div>
                     </div>
                   </div>
-                )
+                ),
               )}
             </div>
           </CardContent>

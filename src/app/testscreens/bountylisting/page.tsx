@@ -75,7 +75,7 @@ export default function BountyListingScreen() {
     setSelectedCategories((prev) =>
       prev.includes(category)
         ? prev.filter((c) => c !== category)
-        : [...prev, category]
+        : [...prev, category],
     );
   };
 
@@ -83,7 +83,7 @@ export default function BountyListingScreen() {
     setSelectedCommunicationMethods((prev) =>
       prev.includes(method)
         ? prev.filter((m) => m !== method)
-        : [...prev, method]
+        : [...prev, method],
     );
   };
 
@@ -173,7 +173,7 @@ export default function BountyListingScreen() {
                           <Checkbox
                             id={method}
                             checked={selectedCommunicationMethods.includes(
-                              method
+                              method,
                             )}
                             onCheckedChange={() =>
                               handleCommunicationMethodChange(method)

@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
   const path = request.nextUrl.pathname;
   const url = request.nextUrl.clone();
 
-  // console.log("url",url)
+  console.log("url",url)
   if (path.startsWith("/private")) {
     // Extract all cookies from the request header
     const cookies = request.headers.get("cookie") || "";
@@ -25,11 +25,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
 
     // You can perform a redirect if the cookie is not valid
     if (!result.isValid) {
-      return NextResponse.redirect(new URL("/", request.url));
+      return NextResponse.redirect(new URL("/login?redirect=/private/new-bounty", request.url));
     }
   }
 }
-// // See "Matching Paths" below to learn more
-// export const config = {
-//   matcher: ["/api/private/:path*"],
-// };
