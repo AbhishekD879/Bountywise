@@ -1,12 +1,20 @@
 // components/NewBountyForm.tsx (Client Component)
 "use client";
-import { useState, useRef } from "react";
+
+import { useState } from "react";
 import BountyFormLayout from "./BountyFormLayout";
 import BountyTitle from "./BountyTitle";
 import BountyDescription from "./BountyDescription";
 import BountyTags from "./BountyTags";
 import BountyCommunicationMethod from "./BountyCommunicationMethod";
+import BountyAttachments from "./BountyAttachments";
+import BountyDeadline from "./BountyDeadline";
 import BountyStepNavigation from "./BountyStepNavigation";
+
+interface Attachment {
+  file: File;
+  id: string;
+}
 
 export default function NewBountyForm() {
   const [step, setStep] = useState(1);
@@ -14,8 +22,11 @@ export default function NewBountyForm() {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [communicationMethod, setCommunicationMethod] = useState("chat");
+  const [deadline, setDeadline] = useState<Date | undefined>();
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
+  // Validation for step 1 (title, description, and tags)
   const validateStep1 = () => {
     const newErrors: Record<string, string> = {};
     if (!title.trim()) newErrors.title = "Title is required";
@@ -26,6 +37,7 @@ export default function NewBountyForm() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Validation for step 2 (communication method)
   const validateStep2 = () => {
     const newErrors: Record<string, string> = {};
     if (!communicationMethod)
@@ -34,12 +46,14 @@ export default function NewBountyForm() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Handle the "Next" button click to proceed to the next step
   const handleNext = () => {
     if (step === 1 && validateStep1()) {
       setStep(2);
     }
   };
 
+  // Handle the form submission
   const handleSubmit = () => {
     if (validateStep2()) {
       console.log("Form submitted:", {
@@ -47,12 +61,16 @@ export default function NewBountyForm() {
         description,
         tags,
         communicationMethod,
+        deadline,
+        attachments,
       });
+      // Place logic to submit form data to the server here
     }
   };
 
   return (
     <BountyFormLayout step={step}>
+      {/* Step 1: Title, Description, and Tags */}
       <div
         className={`transition-opacity duration-300 ${step === 1 ? "opacity-100" : "opacity-0 hidden"}`}
       >
@@ -65,17 +83,23 @@ export default function NewBountyForm() {
         <BountyTags tags={tags} setTags={setTags} error={errors.tags} />
       </div>
 
+      {/* Step 2: Communication Method, Deadline, and Attachments */}
       <div
-        className={`transition-opacity duration-300 ${step === 2 ? "opacity-100" : "opacity-0 hidden"}`}
+        className={`transition-opacity duration-300 ${step === 2 ? "opacity-100" : "opacity-0 hidden"} flex flex-col gap-5`}
       >
         <BountyCommunicationMethod
           communicationMethod={communicationMethod}
           setCommunicationMethod={setCommunicationMethod}
           error={errors.communicationMethod}
         />
-        {/* Other step 2 components */}
+        <BountyDeadline deadline={deadline} setDeadline={setDeadline} />
+        <BountyAttachments
+          attachments={attachments}
+          setAttachments={setAttachments}
+        />
       </div>
 
+      {/* Step Navigation: Next, Back, and Submit */}
       <BountyStepNavigation
         step={step}
         setStep={setStep}

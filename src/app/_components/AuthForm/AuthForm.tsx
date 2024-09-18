@@ -10,6 +10,7 @@ import DisabledWrapper from "./DisabledWrapper";
 import GoogleAuth from "./GoogleAuth";
 import AppleAuth from "./AppleAuth";
 import { useCreateAuthFormListner } from "@/lib/eventListners/authFormListner";
+import { useRouter } from "next/navigation";
 
 interface modelProps {
   isOpen: boolean;
@@ -18,7 +19,9 @@ interface modelProps {
 }
 
 export default function AuthForm(props: modelProps) {
+  console.log("props", props);
   const { modelStateSetter, modelProps } = props;
+  const router = useRouter();
   if (!modelProps.isSignUpMode) {
     modelProps.isSignUpMode = false;
   }
@@ -32,6 +35,9 @@ export default function AuthForm(props: modelProps) {
     console.log("Login Successful");
     modelStateSetter(false); // Close the model
     getCurrentUser();
+    if (modelProps.redirectUrl) {
+      router.push(modelProps.redirectUrl);
+    }
     return null; // Return null to prevent rendering the form again
   }
   return (
@@ -52,11 +58,11 @@ export default function AuthForm(props: modelProps) {
         </h2>
 
         {/* Error Message */}
-        {state?.error && (
+        {(state?.error || modelProps.redirectError) && (
           <div className="flex items-center justify-center gap-1 text-center mt-2">
             <InfoIcon className="text-sm text-center font-bold !text-destructive" />
             <p className="text-sm text-center font-bold !text-destructive">
-              {state?.error}
+              {state?.error || modelProps.redirectError}
             </p>
           </div>
         )}
