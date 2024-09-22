@@ -54,7 +54,7 @@ export const bountyTable = pgTable("bounties", {
   tags: text("tags")
     .array()
     .default(sql`ARRAY[]::text[]`), // Array of tags for categorization
-  budget: integer("budget").notNull(),
+  budget: integer("budget"),
   status: varchar("status", { length: 128 }).default("open"), // 'open', 'accepted', 'completed', etc.
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),

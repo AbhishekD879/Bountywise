@@ -30,6 +30,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 
   // Return actual user data
   return Response.json({
+    id : user.id || "N/A",
     firstName: user.firstName || "N/A",
     lastName: user.lastName || "N/A",
     email: user.email || "N/A",

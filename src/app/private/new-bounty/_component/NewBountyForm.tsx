@@ -47,15 +47,16 @@ export default function NewBountyForm() {
   };
 
   // Handle the "Next" button click to proceed to the next step
-  const handleNext = (e:any) => {
-    e.preventDefault()
+  const handleNext = () => {
     if (step === 1 && validateStep1()) {
       setStep(2);
     }
   };
 
   // Handle the form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const res = await fetch('/api/private/ms/bounty/create-bounty' ,{credentials : "include"})
+    console.log("res:" , res)
     if (validateStep2()) {
       console.log("Form submitted:", {
         title,
@@ -70,10 +71,10 @@ export default function NewBountyForm() {
   };
 
   return (
-    <form>
+    
       <BountyFormLayout step={step}>
         {/* Step 1: Title, Description, and Tags */}
-        {step===1 && <div
+        <div
           className={`transition-opacity duration-300 ${
             step === 1 ? "opacity-100" : "opacity-0 hidden"
           }`}
@@ -85,11 +86,11 @@ export default function NewBountyForm() {
             error={errors.description}
           />
           <BountyTags tags={tags} setTags={setTags} error={errors.tags} />
-        </div>}
+        </div>
         
 
         {/* Step 2: Communication Method, Deadline, and Attachments */}
-        {step ===2 &&  <div
+        <div
           className={`transition-opacity duration-300 ${
             step === 2 ? "opacity-100" : "opacity-0 hidden"
           } flex flex-col gap-5`}
@@ -104,7 +105,7 @@ export default function NewBountyForm() {
             attachments={attachments}
             setAttachments={setAttachments}
           />
-        </div>}
+        </div>
         
 
         {/* Step Navigation: Next, Back, and Submit */}
@@ -115,6 +116,6 @@ export default function NewBountyForm() {
           handleSubmit={handleSubmit}
         />
       </BountyFormLayout>
-    </form>
+    
   );
 }
