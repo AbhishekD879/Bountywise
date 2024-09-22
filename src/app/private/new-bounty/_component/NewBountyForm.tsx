@@ -47,7 +47,8 @@ export default function NewBountyForm() {
   };
 
   // Handle the "Next" button click to proceed to the next step
-  const handleNext = () => {
+  const handleNext = (e:any) => {
+    e.preventDefault()
     if (step === 1 && validateStep1()) {
       setStep(2);
     }
@@ -72,7 +73,7 @@ export default function NewBountyForm() {
     <form>
       <BountyFormLayout step={step}>
         {/* Step 1: Title, Description, and Tags */}
-        <div
+        {step===1 && <div
           className={`transition-opacity duration-300 ${
             step === 1 ? "opacity-100" : "opacity-0 hidden"
           }`}
@@ -84,10 +85,11 @@ export default function NewBountyForm() {
             error={errors.description}
           />
           <BountyTags tags={tags} setTags={setTags} error={errors.tags} />
-        </div>
+        </div>}
+        
 
         {/* Step 2: Communication Method, Deadline, and Attachments */}
-        <div
+        {step ===2 &&  <div
           className={`transition-opacity duration-300 ${
             step === 2 ? "opacity-100" : "opacity-0 hidden"
           } flex flex-col gap-5`}
@@ -102,7 +104,8 @@ export default function NewBountyForm() {
             attachments={attachments}
             setAttachments={setAttachments}
           />
-        </div>
+        </div>}
+        
 
         {/* Step Navigation: Next, Back, and Submit */}
         <BountyStepNavigation
