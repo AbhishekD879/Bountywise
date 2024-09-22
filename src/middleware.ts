@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
   const path = request.nextUrl.pathname;
   const url = request.nextUrl.clone();
 
-  if (path.startsWith("/private")) {
+  if (path.startsWith("/private") || path.startsWith('/api/private') ) {
     console.log("path", path);
     // Extract all cookies from the request header
     const cookies = request.headers.get("cookie") || "";

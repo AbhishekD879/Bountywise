@@ -14,6 +14,7 @@ export const getUser = createAsyncThunk(
 );
 
 type TUser = {
+  id : null | string
   firstName: null | string;
   lastName: null | string;
   email: null | string;
@@ -29,6 +30,7 @@ const initialState: {
 } = {
   isAuthenticated: false,
   user: {
+    id : null,
     firstName: null,
     lastName: null,
     email: null,
@@ -46,6 +48,7 @@ const authSlice = createSlice({
     logout(state) {
       state.isAuthenticated = false;
       state.user = {
+        id : null,
         firstName: null,
         lastName: null,
         email: null,

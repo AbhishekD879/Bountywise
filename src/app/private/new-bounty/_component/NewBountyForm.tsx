@@ -54,7 +54,9 @@ export default function NewBountyForm() {
   };
 
   // Handle the form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const res = await fetch('/api/private/ms/bounty/create-bounty' ,{credentials : "include"})
+    console.log("res:" , res)
     if (validateStep2()) {
       console.log("Form submitted:", {
         title,
@@ -69,7 +71,7 @@ export default function NewBountyForm() {
   };
 
   return (
-    <form>
+    
       <BountyFormLayout step={step}>
         {/* Step 1: Title, Description, and Tags */}
         <div
@@ -85,6 +87,7 @@ export default function NewBountyForm() {
           />
           <BountyTags tags={tags} setTags={setTags} error={errors.tags} />
         </div>
+        
 
         {/* Step 2: Communication Method, Deadline, and Attachments */}
         <div
@@ -103,6 +106,7 @@ export default function NewBountyForm() {
             setAttachments={setAttachments}
           />
         </div>
+        
 
         {/* Step Navigation: Next, Back, and Submit */}
         <BountyStepNavigation
@@ -112,6 +116,6 @@ export default function NewBountyForm() {
           handleSubmit={handleSubmit}
         />
       </BountyFormLayout>
-    </form>
+    
   );
 }
