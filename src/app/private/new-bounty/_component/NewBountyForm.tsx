@@ -69,43 +69,49 @@ export default function NewBountyForm() {
   };
 
   return (
-    <BountyFormLayout step={step}>
-      {/* Step 1: Title, Description, and Tags */}
-      <div
-        className={`transition-opacity duration-300 ${step === 1 ? "opacity-100" : "opacity-0 hidden"}`}
-      >
-        <BountyTitle title={title} setTitle={setTitle} error={errors.title} />
-        <BountyDescription
-          description={description}
-          setDescription={setDescription}
-          error={errors.description}
-        />
-        <BountyTags tags={tags} setTags={setTags} error={errors.tags} />
-      </div>
+    <form>
+      <BountyFormLayout step={step}>
+        {/* Step 1: Title, Description, and Tags */}
+        <div
+          className={`transition-opacity duration-300 ${
+            step === 1 ? "opacity-100" : "opacity-0 hidden"
+          }`}
+        >
+          <BountyTitle title={title} setTitle={setTitle} error={errors.title} />
+          <BountyDescription
+            description={description}
+            setDescription={setDescription}
+            error={errors.description}
+          />
+          <BountyTags tags={tags} setTags={setTags} error={errors.tags} />
+        </div>
 
-      {/* Step 2: Communication Method, Deadline, and Attachments */}
-      <div
-        className={`transition-opacity duration-300 ${step === 2 ? "opacity-100" : "opacity-0 hidden"} flex flex-col gap-5`}
-      >
-        <BountyCommunicationMethod
-          communicationMethod={communicationMethod}
-          setCommunicationMethod={setCommunicationMethod}
-          error={errors.communicationMethod}
-        />
-        <BountyDeadline deadline={deadline} setDeadline={setDeadline} />
-        <BountyAttachments
-          attachments={attachments}
-          setAttachments={setAttachments}
-        />
-      </div>
+        {/* Step 2: Communication Method, Deadline, and Attachments */}
+        <div
+          className={`transition-opacity duration-300 ${
+            step === 2 ? "opacity-100" : "opacity-0 hidden"
+          } flex flex-col gap-5`}
+        >
+          <BountyCommunicationMethod
+            communicationMethod={communicationMethod}
+            setCommunicationMethod={setCommunicationMethod}
+            error={errors.communicationMethod}
+          />
+          <BountyDeadline deadline={deadline} setDeadline={setDeadline} />
+          <BountyAttachments
+            attachments={attachments}
+            setAttachments={setAttachments}
+          />
+        </div>
 
-      {/* Step Navigation: Next, Back, and Submit */}
-      <BountyStepNavigation
-        step={step}
-        setStep={setStep}
-        handleNext={handleNext}
-        handleSubmit={handleSubmit}
-      />
-    </BountyFormLayout>
+        {/* Step Navigation: Next, Back, and Submit */}
+        <BountyStepNavigation
+          step={step}
+          setStep={setStep}
+          handleNext={handleNext}
+          handleSubmit={handleSubmit}
+        />
+      </BountyFormLayout>
+    </form>
   );
 }

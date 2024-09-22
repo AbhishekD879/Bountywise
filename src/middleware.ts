@@ -30,4 +30,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
       );
     }
   }
+  if(path.startsWith("/api/private")){
+    // private api routes
+  }
 }

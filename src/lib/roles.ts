@@ -1,4 +1,4 @@
 export enum Roles {
-  user = "0191d21d-1a86-7442-a34c-a6982225c600",
-  hunter = "0191d21d-228a-7442-a34c-ad13ce1da2d1",
+  user = "8efc5a54-c762-45f7-8ecb-c9ffd3be2466",
+  hunter = "d75e583c-79bc-4c66-aa3f-42b8e818a4a2",
 }

@@ -1,13 +1,13 @@
-import { roleTable } from "@/schema";
+import { roleTable } from "./../schema";
 import db from "./tembo.db";
-import { v7 } from "uuid";
+import { v4 } from "uuid";
 
 const roles = ["user", "hunter"];
 
 const insertRoles = async () => {
   for (let i = 0; i < roles.length; i++) {
     await db.insert(roleTable).values({
-      id: v7(),
+      id: v4(),
       type: roles[i],
     });
   }
