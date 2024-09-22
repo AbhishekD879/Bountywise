@@ -386,7 +386,7 @@ function MessagesDashboard() {
                 className="flex items-center space-x-4 p-4 bg-[#eeeeee] rounded-lg hover:bg-[#d4d4d4] transition-colors"
               >
                 <Avatar className="h-12 w-12 border-2 border-[#ff5722]">
-                  <AvatarImage src="/placeholder.svg" />
+                  <AvatarImage  src="/placeholder.svg" alt={name} />
                   <AvatarFallback className="bg-[#ff5722] text-[#ffffff]">
                     {name[0]}
                   </AvatarFallback>

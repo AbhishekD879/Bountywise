@@ -14,7 +14,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { LogoutForm } from "./LogoutForm";
 import Link from "next/link";
-
+import Image from "next/image";
 export function ProfileDropdown({
   url,
   firstName,
@@ -25,12 +25,7 @@ export function ProfileDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Avatar className="size-10 cursor-pointer border">
-          <AvatarImage src={url || "url"} alt={firstName || "avatar"} />
-          <AvatarFallback>
-            <Skeleton className="size-full" />
-          </AvatarFallback>
-        </Avatar>
+        <Image loading="eager" placeholder="blur" blurDataURL={url}  src={url || "url"} alt={firstName || "avatar"} width={40} height={40} className="rounded-full" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
