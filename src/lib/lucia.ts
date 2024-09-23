@@ -1,4 +1,4 @@
-import { Lucia } from "lucia";
+import { Lucia, TimeSpan } from "lucia";
 import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
 import db from "./tembo.db";
 import { sessionTable, userTable } from "@/schema";
@@ -7,9 +7,12 @@ import { sessionTable, userTable } from "@/schema";
 const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, userTable);
 
 export const lucia = new Lucia(adapter, {
+  sessionExpiresIn: new TimeSpan(1, "w"),
   sessionCookie: {
+    expires: true,
     attributes: {
       secure: process.env.NODE_ENV === "production",
+      sameSite:"strict"
     },
   },
   getUserAttributes: (attributes) => {
