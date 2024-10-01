@@ -3,12 +3,11 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { MessageSquare, Video, Mic } from "lucide-react";
+import { useState } from "react";
 
-export default function BountyCommunicationMethod({
-  communicationMethod,
-  setCommunicationMethod,
-  error,
-}: any) {
+export default function BountyCommunicationMethod({ error }: any) {
+  const [communicationMethod, setCommunicationMethod] =
+    useState<string>("video");
   return (
     <div className="mb-6">
       <Label className="mb-2 text-[#46515e] flex items-center">
@@ -16,6 +15,7 @@ export default function BountyCommunicationMethod({
         Preferred Communication Method
       </Label>
       <RadioGroup
+        name="communicationMethod"
         value={communicationMethod}
         onValueChange={setCommunicationMethod}
         className="flex space-x-4"

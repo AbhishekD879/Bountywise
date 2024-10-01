@@ -12,18 +12,13 @@ import { Calendar } from "@/components/ui/calendar";
 import { Clock, CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 
-export default function BountyDeadline({
-  deadline,
-  setDeadline,
-}: {
-  deadline: Date | undefined;
-  setDeadline: any;
-}) {
+export default function BountyDeadline() {
+  const [deadline, setDeadline] = useState<Date | undefined>(undefined);
   return (
     <div className="mb-6">
       <Label
         htmlFor="deadline"
-        className="block mb-2 text-[#46515e] flex items-center"
+        className="mb-2 text-[#46515e] flex items-center"
       >
         <Clock className="mr-2" />
         Deadline (Optional)
@@ -32,7 +27,9 @@ export default function BountyDeadline({
         <PopoverTrigger asChild>
           <Button
             variant={"outline"}
-            className={`w-full justify-start text-left font-normal border-[#d4d4d4] focus:ring-2 focus:ring-[#ff5722] transition-all duration-300 ${!deadline && "text-muted-foreground"}`}
+            className={`w-full justify-start text-left font-normal border-[#d4d4d4] focus:ring-2 focus:ring-[#ff5722] transition-all duration-300 ${
+              !deadline && "text-muted-foreground"
+            }`}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {deadline ? format(deadline, "PPP") : <span>Pick a date</span>}

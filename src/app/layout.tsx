@@ -9,6 +9,7 @@ import { Logo } from "./_components/Header/Logo";
 import { LoginCta } from "./_components/Header/LoginCta";
 import { SignUpCta } from "./_components/Header/SignUpCta";
 // import eventsource from 'eventsource';
+import MaintenancePage from './testscreens/maintenance/page';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -31,6 +32,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if(process.env.NEXT_PUBLIC_MAINTENANCE_PAGE === "true"){
+    return <MaintenancePage />
+  }
   return (
     <html lang="en">
       <body

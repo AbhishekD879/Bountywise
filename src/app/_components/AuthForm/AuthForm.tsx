@@ -9,7 +9,6 @@ import { useAuth } from "@/lib/hooks/useAuth";
 import DisabledWrapper from "./DisabledWrapper";
 import GoogleAuth from "./GoogleAuth";
 import AppleAuth from "./AppleAuth";
-import { useCreateAuthFormListner } from "@/lib/eventListners/authFormListner";
 import { useRouter } from "next/navigation";
 
 interface modelProps {

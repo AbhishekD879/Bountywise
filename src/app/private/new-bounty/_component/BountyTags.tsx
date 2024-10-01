@@ -29,14 +29,11 @@ const tagOptions = [
 ];
 
 export default function BountyTags({
-  tags,
-  setTags,
   error,
 }: {
-  tags: string[];
-  setTags: React.Dispatch<React.SetStateAction<string[]>>;
   error: string;
 }) {
+  const [tags, setTags] = useState<string[]>([]);
   const [customTag, setCustomTag] = useState("");
 
   const handleAddTag = (value: string) => {
@@ -54,7 +51,7 @@ export default function BountyTags({
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags((prevTags: string[]) =>
-      prevTags.filter((tag: string) => tag !== tagToRemove),
+      prevTags.filter((tag: string) => tag !== tagToRemove)
     );
   };
 
@@ -74,7 +71,7 @@ export default function BountyTags({
           </Tooltip>
         </TooltipProvider>
       </Label>
-      <Select onValueChange={handleAddTag}>
+      <Select  onValueChange={handleAddTag}>
         <SelectTrigger className="w-full border-[#d4d4d4] focus:ring-2 focus:ring-[#ff5722] transition-all duration-300">
           <SelectValue placeholder="Select tags" />
         </SelectTrigger>
@@ -97,6 +94,7 @@ export default function BountyTags({
           className="mr-2 border-[#d4d4d4] focus:ring-2 focus:ring-[#ff5722] transition-all duration-300"
         />
         <Button
+          type="button"
           onClick={handleAddCustomTag}
           variant="outline"
           className="border-[#ff5722] text-[#ff5722] hover:bg-[#ff57221a] transition-all duration-300"
@@ -120,6 +118,7 @@ export default function BountyTags({
           </span>
         ))}
       </div>
+      <input type="hidden" name="tags" value={tags} />
       {error && <p className="text-[#d9534f] text-sm mt-1">{error}</p>}
     </div>
   );

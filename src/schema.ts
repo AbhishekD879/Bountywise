@@ -62,6 +62,9 @@ export const bountyTable = pgTable("bounties", {
   communicationMethod: varchar("communication_method", { length: 128 }).default(
     "chat",
   ), // Default communication method
+  attachments: text("attachments")
+    .array()
+    .default(sql`ARRAY[]::text[]`), // Array of attachment URLs
 });
 
 // Hunter profiles (fields of expertise, rates)

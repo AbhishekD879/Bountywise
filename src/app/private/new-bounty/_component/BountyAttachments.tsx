@@ -1,6 +1,6 @@
 // components/BountyAttachments.tsx (Client Component)
 "use client";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,16 +11,12 @@ interface Attachment {
   id: string;
 }
 
-export default function BountyAttachments({
-  attachments,
-  setAttachments,
-}: {
-  attachments: Attachment[];
-  setAttachments: any;
-}) {
+export default function BountyAttachments() {
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files);
     if (e.target.files) {
       const newAttachments = Array.from(e.target.files).map((file) => ({
         file,
@@ -28,9 +24,7 @@ export default function BountyAttachments({
       }));
       setAttachments([...attachments, ...newAttachments]);
     }
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
+    
   };
 
   const handleRemoveAttachment = (id: string) => {
@@ -41,7 +35,7 @@ export default function BountyAttachments({
     <div className="mb-6">
       <Label
         htmlFor="attachment"
-        className="block mb-2 text-[#46515e] flex items-center"
+        className="mb-2 text-[#46515e] flex items-center"
       >
         <Paperclip className="mr-2" />
         Attachments (Optional)
@@ -61,10 +55,11 @@ export default function BountyAttachments({
           className="hidden"
           ref={fileInputRef}
           multiple
+          name="attachments"
         />
       </div>
       {attachments.length > 0 && (
-        <div className="mt-2 space-y-2">
+        <div className="mt-2 space-y-2 overflow-y-scroll max-h-[200px] bg-scroll">
           {attachments.map((attachment) => (
             <div
               key={attachment.id}
