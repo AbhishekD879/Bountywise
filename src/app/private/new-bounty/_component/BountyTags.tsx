@@ -28,11 +28,7 @@ const tagOptions = [
   { value: "marketing", label: "Marketing", icon: "📢" },
 ];
 
-export default function BountyTags({
-  error,
-}: {
-  error: string;
-}) {
+export default function BountyTags({ error }: { error: string }) {
   const [tags, setTags] = useState<string[]>([]);
   const [customTag, setCustomTag] = useState("");
 
@@ -51,7 +47,7 @@ export default function BountyTags({
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags((prevTags: string[]) =>
-      prevTags.filter((tag: string) => tag !== tagToRemove)
+      prevTags.filter((tag: string) => tag !== tagToRemove),
     );
   };
 
@@ -71,7 +67,7 @@ export default function BountyTags({
           </Tooltip>
         </TooltipProvider>
       </Label>
-      <Select  onValueChange={handleAddTag}>
+      <Select onValueChange={handleAddTag}>
         <SelectTrigger className="w-full border-[#d4d4d4] focus:ring-2 focus:ring-[#ff5722] transition-all duration-300">
           <SelectValue placeholder="Select tags" />
         </SelectTrigger>

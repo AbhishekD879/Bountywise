@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
         headers: {
           cookie: cookies, // Set the cookie header for the API request
         },
-      }
+      },
     );
 
     const result = await cookieValidationResponse.json();
@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest, res: NextResponse) {
         // return NextResponse.redirect(new URL("/login", request.url));
       } else {
         return NextResponse.redirect(
-          new URL(`/login?redirect=${path}`, request.url)
+          new URL(`/login?redirect=${path}`, request.url),
         );
       }
     }

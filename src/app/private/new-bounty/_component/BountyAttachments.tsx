@@ -24,7 +24,6 @@ export default function BountyAttachments() {
       }));
       setAttachments([...attachments, ...newAttachments]);
     }
-    
   };
 
   const handleRemoveAttachment = (id: string) => {

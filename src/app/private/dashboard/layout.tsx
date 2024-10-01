@@ -1,8 +1,8 @@
 "use client";
 import BountyWiseSidebar from "./_components/BountywiseDashboardSidebar";
 import { useState } from "react";
-import MyBounties from "./@myBounties/page"
-import Dashboard from "./page"
+import MyBounties from "./@myBounties/page";
+import Dashboard from "./page";
 
 export default function DashboardLayout({
   analytics,
@@ -17,7 +17,7 @@ export default function DashboardLayout({
 }>) {
   const [userType, setUserType] = useState<"poster" | "hunter">("poster");
   const [activeTab, setActiveTab] = useState("dashboard");
-  
+
   return (
     <div className="flex h-[calc(100%_-_76px)]">
       <div className="h-full">
@@ -29,10 +29,10 @@ export default function DashboardLayout({
         />
       </div>
       <div className="flex-1 bg-[#ffffff] p-6 ">
-        {activeTab === "dashboard" && <Dashboard userType={userType}/>}
+        {activeTab === "dashboard" && <Dashboard userType={userType} />}
         {activeTab === "analytics" && analytics}
         {activeTab === "messages" && messages}
-        {activeTab === "mybounties" && <MyBounties userType={userType}/>}
+        {activeTab === "mybounties" && <MyBounties userType={userType} />}
         {activeTab === "payments" && payments}
       </div>
     </div>

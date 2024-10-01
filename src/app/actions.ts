@@ -205,7 +205,6 @@ export async function googleAuth() {
   redirect(consentUrl.toString());
 }
 
-
 export async function createBounty(previousState: any, formdata: FormData) {
   const returnObject = {
     title: undefined as string[] | undefined,
@@ -221,7 +220,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
   console.log(formdata);
   const title = formdata.get("title") as string;
   const description = formdata.get("description") as string;
-  const tags = formdata.get("tags")
+  const tags = formdata.get("tags");
   const communicationMethod = formdata.get("communicationMethod") as string;
   const budget = formdata.get("budget");
   const currency = formdata.get("currency");
@@ -240,7 +239,16 @@ export async function createBounty(previousState: any, formdata: FormData) {
   });
 
   if (!validationResult.success) {
-    const { title, description, tags, communicationMethod, budget, currency, deadline, attachments } = validationResult.error.flatten().fieldErrors;
+    const {
+      title,
+      description,
+      tags,
+      communicationMethod,
+      budget,
+      currency,
+      deadline,
+      attachments,
+    } = validationResult.error.flatten().fieldErrors;
     returnObject.title = title;
     returnObject.description = description;
     returnObject.tags = tags;

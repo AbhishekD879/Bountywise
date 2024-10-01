@@ -25,7 +25,16 @@ export function ProfileDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Image loading="eager" placeholder="blur" blurDataURL={url}  src={url || "url"} alt={firstName || "avatar"} width={40} height={40} className="rounded-full" />
+        <Image
+          loading="eager"
+          placeholder="blur"
+          blurDataURL={url}
+          src={url || "url"}
+          alt={firstName || "avatar"}
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

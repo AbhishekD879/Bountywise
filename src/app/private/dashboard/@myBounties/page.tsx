@@ -67,7 +67,7 @@ export default function Page({ userType }: { userType: "poster" | "hunter" }) {
                 </div>
               </CardContent>
             </Card>
-          )
+          ),
         )}
       </div>
     </div>

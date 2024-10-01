@@ -12,13 +12,13 @@ export const lucia = new Lucia(adapter, {
     expires: true,
     attributes: {
       secure: process.env.NODE_ENV === "production",
-      sameSite:"strict"
+      sameSite: "strict",
     },
   },
   getUserAttributes: (attributes) => {
     return {
       // attributes has the type of DatabaseUserAttributes
-      id : attributes.id,
+      id: attributes.id,
       email: attributes.email,
       firstName: attributes.firstName,
       lastName: attributes.lastName,
