@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../reduxHooks";
-import { authState, getUser } from "../features/authSlice";
+import { authState, getUser, logout } from "../features/authSlice";
 import { openAuthFormEvent } from "../eventListners/authFormListner";
 import { useRouter } from "next/navigation";
 
@@ -12,8 +12,15 @@ export const useAuth = () => {
   const { user, loading, error } = useAppSelector(authState);
   const router = useRouter();
   const getCurrentUser = useCallback(() => {
-    dispatch(getUser());
+    if(!user.id){
+      dispatch(getUser());
+    }
   }, [dispatch]);
+  const logoutCurentUser = useCallback(()=>{
+      dispatch(logout());
+      router.push("/");
+    },[dispatch]);
+
 
   // useEffect(() => {
   //   if(!user.email){
@@ -24,5 +31,5 @@ export const useAuth = () => {
   //   }
   // }, [user.email]);
 
-  return { user, loading, error, getCurrentUser };
+  return { user, loading, error, getCurrentUser, logoutCurentUser };
 };

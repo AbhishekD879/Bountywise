@@ -26,7 +26,7 @@ const fontBody = Inter({
   display: "swap",
   variable: "--font-body",
 });
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

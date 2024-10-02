@@ -5,18 +5,18 @@ export const bountySchema = z.object({
     .string()
     .min(1, "Title is required")
     .max(100, "Title must be 100 characters or less"),
-  description: z.string().min(50, "Description must be at least 50 characters"),
-  tags: z.array(z.string()).min(1, "At least one tag is required"),
+  description: z.string().optional(),
+  tags: z.string().min(1, "At least one tag is required"),
   communicationMethod: z.enum(["video", "audio", "chat"]),
-  budget: z.number().nullable(),
-  currency: z.string(),
-  deadline: z.date().optional(),
+  budget: z.number().nullable().optional(),
+  currency: z.string().optional().nullable(),
+  deadline: z.date().optional().nullable(),
   attachments: z
     .array(
       z.object({
-        name: z.string(),
-        size: z.number(),
-        type: z.string(),
+        name: z.string().optional(),
+        size: z.number().optional(),
+        type: z.string().optional(),
       }),
     )
     .optional(),

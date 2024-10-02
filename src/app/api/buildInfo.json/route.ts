@@ -4,7 +4,7 @@ export async function GET() {
   return NextResponse.json({
     build: "1.0.0",
     message: "Build info",
-    tagService: "/",
-    bountyService: "/",
+    tagService: "/dev/api/tag/",
+    bountyService: "/dev/api/bounty/",
   });
 }

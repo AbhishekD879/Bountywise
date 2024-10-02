@@ -6,13 +6,15 @@ import { lucia } from "@/lib/lucia";
 import { google } from "@/lib/oAuth/googleOAuth";
 import { Roles } from "@/lib/roles";
 import db from "@/lib/tembo.db";
-import { userTable } from "@/schema";
+import { safeExec } from "@/lib/utils";
+import { bountyTable, userTable } from "@/schema";
 import { generateCodeVerifier, generateState } from "arctic";
 import { sql } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 import { v4 } from "uuid";
+import { getUser } from "../lib/features/authSlice";
 
 // Define the common return object structure
 interface TReturnObject {
@@ -69,7 +71,7 @@ export async function login(previousState: any, formdata: FormData) {
     // Validate the password
     const isPasswordValid = await new Argon2id().verify(
       user.hashedPassword,
-      password,
+      password
     );
     if (!isPasswordValid) {
       returnObject.error = "Invalid password.";
@@ -85,7 +87,7 @@ export async function login(previousState: any, formdata: FormData) {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes,
+      sessionCookie.attributes
     );
 
     // If successful
@@ -163,7 +165,7 @@ export async function register(previousState: any, formdata: FormData) {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes,
+      sessionCookie.attributes
     );
 
     // Set success message
@@ -215,7 +217,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
     currency: undefined as string[] | undefined,
     deadline: undefined as string[] | undefined,
     attachments: undefined as string[] | undefined,
-    error: null,
+    error: null as null | string,
   };
   console.log(formdata);
   const title = formdata.get("title") as string;
@@ -235,9 +237,8 @@ export async function createBounty(previousState: any, formdata: FormData) {
     budget,
     currency,
     deadline,
-    attachments,
   });
-
+  console.log("sucuess", validationResult.success);
   if (!validationResult.success) {
     const {
       title,
@@ -247,8 +248,8 @@ export async function createBounty(previousState: any, formdata: FormData) {
       budget,
       currency,
       deadline,
-      attachments,
     } = validationResult.error.flatten().fieldErrors;
+    console.log("fieldErrors", validationResult.error.flatten().fieldErrors);
     returnObject.title = title;
     returnObject.description = description;
     returnObject.tags = tags;
@@ -256,7 +257,21 @@ export async function createBounty(previousState: any, formdata: FormData) {
     returnObject.budget = budget;
     returnObject.currency = currency;
     returnObject.deadline = deadline;
-    returnObject.attachments = attachments;
     return returnObject;
   }
+  const bountyId = v4();
+
+  const sessionId = cookies().get(lucia.sessionCookieName)?.value || null;
+  const { session, user } = await lucia.validateSession(sessionId!);
+  if (!session || !user) {
+    returnObject.error = "Invalid session or user.";
+    return returnObject;
+  }
+  await db.insert(bountyTable).values({
+    id: bountyId,
+    posterId: user.id,
+    description,
+    title,
+    communicationMethod,
+  });
 }
