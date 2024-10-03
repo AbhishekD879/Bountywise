@@ -39,6 +39,5 @@ export async function middleware(request: NextRequest, res: NextResponse) {
   }
   if (path.startsWith("/api/private/ms")) {
     // private api routes
-    
   }
 }

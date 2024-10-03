@@ -9,17 +9,17 @@ import { useRouter } from "next/navigation";
 export const LogoutForm = () => {
   const router = useRouter();
   const [state, logoutAction] = useFormState(logout, null);
-  const { getCurrentUser,logoutCurentUser } = useAuth();
+  const { getCurrentUser, logoutCurentUser } = useAuth();
 
   useEffect(() => {
     console.log(state);
     if (state) {
       console.log("Logout Successful");
-      logoutCurentUser()
+      logoutCurentUser();
       getCurrentUser();
       router.replace("/");
     }
-  }, [state, getCurrentUser,logoutCurentUser, router]);
+  }, [state, getCurrentUser, logoutCurentUser, router]);
 
   return (
     // <DropdownMenuItem className="cursor-pointer">

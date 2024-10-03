@@ -71,7 +71,7 @@ export async function login(previousState: any, formdata: FormData) {
     // Validate the password
     const isPasswordValid = await new Argon2id().verify(
       user.hashedPassword,
-      password
+      password,
     );
     if (!isPasswordValid) {
       returnObject.error = "Invalid password.";
@@ -87,7 +87,7 @@ export async function login(previousState: any, formdata: FormData) {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
 
     // If successful
@@ -165,7 +165,7 @@ export async function register(previousState: any, formdata: FormData) {
     cookies().set(
       sessionCookie.name,
       sessionCookie.value,
-      sessionCookie.attributes
+      sessionCookie.attributes,
     );
 
     // Set success message
@@ -218,6 +218,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
     deadline: undefined as string[] | undefined,
     attachments: undefined as string[] | undefined,
     error: null as null | string,
+    success: false,
   };
   console.log(formdata);
   const title = formdata.get("title") as string;
@@ -267,11 +268,20 @@ export async function createBounty(previousState: any, formdata: FormData) {
     returnObject.error = "Invalid session or user.";
     return returnObject;
   }
-  await db.insert(bountyTable).values({
+  const bounty = await db.insert(bountyTable).values({
     id: bountyId,
     posterId: user.id,
     description,
+    tags:tags?.toString().split(","),
     title,
     communicationMethod,
   });
+  if (bounty) {
+    returnObject.success = true;
+    return returnObject;
+  } else {
+    returnObject.error = "An error occurred while creating bounty.";
+    returnObject.success = false;
+    return returnObject;
+  }
 }

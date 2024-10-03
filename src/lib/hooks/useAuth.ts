@@ -12,15 +12,14 @@ export const useAuth = () => {
   const { user, loading, error } = useAppSelector(authState);
   const router = useRouter();
   const getCurrentUser = useCallback(() => {
-    if(!user.id){
+    if (!user.id) {
       dispatch(getUser());
     }
   }, [dispatch]);
-  const logoutCurentUser = useCallback(()=>{
-      dispatch(logout());
-      router.push("/");
-    },[dispatch]);
-
+  const logoutCurentUser = useCallback(() => {
+    dispatch(logout());
+    router.push("/");
+  }, [dispatch]);
 
   // useEffect(() => {
   //   if(!user.email){

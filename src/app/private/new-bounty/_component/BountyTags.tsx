@@ -28,7 +28,7 @@ const tagOptions = [
   { value: "marketing", label: "Marketing", icon: "📢" },
 ];
 
-export default function BountyTags({ error }: { error: string }) {
+export default function BountyTags({ error }: { error: string[] | undefined }) {
   const [tags, setTags] = useState<string[]>([]);
   const [customTag, setCustomTag] = useState("");
 
@@ -115,7 +115,13 @@ export default function BountyTags({ error }: { error: string }) {
         ))}
       </div>
       <input type="hidden" name="tags" value={tags} />
-      {error && <p className="text-[#d9534f] text-sm mt-1">{error}</p>}
+      {error &&
+        Array.isArray(error) &&
+        error.map((er) => (
+          <p key={er} className="text-[#d9534f] text-sm mt-1">
+            {er}
+          </p>
+        ))}
     </div>
   );
 }

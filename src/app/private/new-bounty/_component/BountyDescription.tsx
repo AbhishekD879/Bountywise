@@ -1,12 +1,62 @@
-// components/BountyDescription.tsx (Client Component)
 "use client";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { FileText } from "lucide-react";
-import { useState } from "react";
+import { FileText, Sparkles } from "lucide-react";
+import { useState, useEffect } from "react";
+import MDEditor, { commands } from "@uiw/react-md-editor";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-export default function BountyDescription({ error }: any) {
-  const [description, setDescription] = useState("");
+export default function BountyDescription({ error, bountyTitle }: any) {
+  const [description, setDescription] = useState(""); // The current text in the editor
+  const [isTyping, setIsTyping] = useState(false); // To track if typing animation is happening
+  const [typingText, setTypingText] = useState(""); // The full text that will be typed out
+  const [isEditorMode, setIsEditorMode] = useState(true); // To toggle between preview and editor mode
+  const typingSpeed = 30; // Typing speed in milliseconds
+
+  // Typing effect for AI-generated text
+  useEffect(() => {
+    if (isTyping && typingText.length > 0) {
+      let currentIndex = 0;
+
+      const typeInterval = setInterval(() => {
+        if (currentIndex < typingText.length) {
+          setDescription((prev) => prev + typingText[currentIndex]);
+          currentIndex++;
+        } else {
+          clearInterval(typeInterval);
+          setIsTyping(false);
+        }
+      }, typingSpeed);
+
+      return () => clearInterval(typeInterval);
+    }
+  }, [isTyping, typingText]);
+
+  // Handle AI button click
+  const handleAiClick = async () => {
+    console.log("Inside Ai Click");
+    if (!bountyTitle) {
+      alert("Please enter a bounty title before generating a description.");
+      return;
+    }
+    const data = await fetch("/api/private/ms/ai/generateBountyDescription", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ title: bountyTitle, description }),
+    });
+    const aiGeneratedText = (await data.json()).description;
+
+    setDescription(""); // Reset description before starting typing
+    setTypingText(aiGeneratedText); // Set the full text for typing
+    setIsTyping(true); // Start the typing animation
+  };
+
   return (
     <div className="mb-6">
       <Label
@@ -16,14 +66,46 @@ export default function BountyDescription({ error }: any) {
         <FileText className="mr-2" />
         Description
       </Label>
-      <Textarea
-        id="description"
-        name="description"
-        placeholder="Provide a detailed description of your problem..."
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        className="w-full border-[#d4d4d4] min-h-[150px] overflow-y-scroll focus:ring-2 focus:ring-[#ff5722] transition-all duration-300"
-      />
+
+      <div className="relative">
+        {/* Markdown Editor or Preview Mode */}
+        <MDEditor
+          value={description}
+          onChange={(value) => setDescription(value || "")}
+          height={300}
+          data-color-mode="light"
+          preview={isEditorMode ? "edit" : "preview"}
+          onMouseLeave={() => setIsEditorMode(false)} // Switch to preview on mouse leave
+          onMouseEnter={() => setIsEditorMode(true)}
+          extraCommands={[
+            commands.group([], {
+              name: "ai",
+              keyCommand: "ai",
+              icon: (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Sparkles
+                        size={20}
+                        color="#d9534f"
+                        className="cursor-pointer animate-pulse"
+                        onClick={handleAiClick}
+                      />
+                    </TooltipTrigger>
+                    <TooltipContent
+                      align="end"
+                      className="text-black rounded-[0.5rem] p-2 border-none"
+                    >
+                      <p className="text-[#ff5722]">Write With AI</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              ),
+            }),
+          ]}
+        />
+      </div>
+      <textarea hidden={true} value={description} name="description"/>
       <p className="text-sm text-[#46515e] mt-1">
         {description.length} characters
       </p>

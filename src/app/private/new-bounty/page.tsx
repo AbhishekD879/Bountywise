@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import BountyAttachments from "./_component/BountyAttachments";
 import BountyCommunicationMethod from "./_component/BountyCommunicationMethod";
 import BountyDeadline from "./_component/BountyDeadline";
@@ -13,8 +13,9 @@ import { createBounty } from "@/app/actions";
 import CommingSoon from "@/components/ui/CommingSoon";
 export default function NewBountyPage() {
   const [state, createBountyAction] = useFormState(createBounty, null);
+  const [titleForAi, setTitleForAi] = useState("");
   const [step, setStep] = useState(1);
-
+  const titleRef = useRef("");
   const handleNextStep = () => {
     setStep((prevStep) => prevStep + 1);
   };
@@ -40,9 +41,12 @@ export default function NewBountyPage() {
             pointerEvents: step === 1 ? "auto" : "none",
           }}
         >
-          <BountyTitle error={[]} />
-          <BountyDescription error={[]} />
-          <BountyTags error={""} />
+          <BountyTitle titleSetter={setTitleForAi} error={state?.title} />
+          <BountyDescription
+            error={state?.description}
+            bountyTitle={titleForAi}
+          />
+          <BountyTags error={state?.tags} />
           <Button
             type="button"
             onClick={handleNextStep}
@@ -63,7 +67,7 @@ export default function NewBountyPage() {
             pointerEvents: step === 2 ? "auto" : "none",
           }}
         >
-          <BountyCommunicationMethod error={[]} />
+          <BountyCommunicationMethod error={state?.communicationMethod} />
           <BountyDeadline />
           <CommingSoon>
             <BountyAttachments />
