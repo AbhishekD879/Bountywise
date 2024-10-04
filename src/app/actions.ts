@@ -1,26 +1,26 @@
-"use server";
-import { bountySchema } from "@/lib/_definitions/bountySchema";
-import loginSchema from "@/lib/_definitions/loginSchema";
-import registerSchema from "@/lib/_definitions/registerSchema";
-import { lucia } from "@/lib/lucia";
-import { google } from "@/lib/oAuth/googleOAuth";
-import { Roles } from "@/lib/roles";
-import db from "@/lib/tembo.db";
-import { bountyTable, userTable } from "@/schema";
-import { generateCodeVerifier, generateState } from "arctic";
-import { sql } from "drizzle-orm";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { Argon2id } from "oslo/password";
-import { v4 } from "uuid";
+'use server'
+import { bountySchema } from '@/lib/_definitions/bountySchema'
+import loginSchema from '@/lib/_definitions/loginSchema'
+import registerSchema from '@/lib/_definitions/registerSchema'
+import { lucia } from '@/lib/lucia'
+import { google } from '@/lib/oAuth/googleOAuth'
+import { Roles } from '@/lib/roles'
+import db from '@/lib/tembo.db'
+import { bountyTable, userTable } from '@/schema'
+import { generateCodeVerifier, generateState } from 'arctic'
+import { sql } from 'drizzle-orm'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { Argon2id } from 'oslo/password'
+import { v4 } from 'uuid'
 
 // Define the common return object structure
 interface TReturnObject {
-  email: string[] | undefined | null;
-  password: string[] | undefined | null;
-  error: string | null;
-  success: boolean;
-  message: string | null;
+  email: string[] | undefined | null
+  password: string[] | undefined | null
+  error: string | null
+  success: boolean
+  message: string | null
 }
 
 // Fixing the login function
@@ -30,179 +30,165 @@ export async function login(previousState: any, formdata: FormData) {
     password: undefined,
     error: null,
     success: false, // Default success state is false
-    message: null,
-  };
+    message: null
+  }
 
-  const email = formdata.get("email") as string;
-  const password = formdata.get("password") as string;
+  const email = formdata.get('email') as string
+  const password = formdata.get('password') as string
 
   // Validate email and password
   const validationResult = await loginSchema.safeParseAsync({
     email,
-    password,
-  });
+    password
+  })
 
   if (!validationResult.success) {
-    const { email, password } = validationResult.error.flatten().fieldErrors;
-    returnObject.email = email;
-    returnObject.password = password;
-    return returnObject;
+    const { email, password } = validationResult.error.flatten().fieldErrors
+    returnObject.email = email
+    returnObject.password = password
+    return returnObject
   }
 
   // Check if the user exists
   try {
     const user = await db.query.userTable.findFirst({
-      where: sql`${userTable.email} = ${email}`,
-    });
+      where: sql`${userTable.email} = ${email}`
+    })
 
     if (!user) {
-      returnObject.error = "User not found. Please register.";
-      return returnObject;
+      returnObject.error = 'User not found. Please register.'
+      return returnObject
     }
 
     if (!user.hashedPassword) {
-      returnObject.error =
-        "Click Google/Apple buttons for sign up; no email/password needed";
-      return returnObject;
+      returnObject.error = 'Click Google/Apple buttons for sign up; no email/password needed'
+      return returnObject
     }
 
     // Validate the password
-    const isPasswordValid = await new Argon2id().verify(
-      user.hashedPassword,
-      password,
-    );
+    const isPasswordValid = await new Argon2id().verify(user.hashedPassword, password)
     if (!isPasswordValid) {
-      returnObject.error = "Invalid password.";
-      return returnObject;
+      returnObject.error = 'Invalid password.'
+      return returnObject
     }
 
     // Create a session and session cookie
     const session = await lucia.createSession(user.id, {
       expiresIn: 60 * 60 * 24 * 30,
-      httpOnly: true,
-    });
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    );
+      httpOnly: true
+    })
+    const sessionCookie = lucia.createSessionCookie(session.id)
+    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
 
     // If successful
-    returnObject.success = true;
-    returnObject.message = "Login successful!";
+    returnObject.success = true
+    returnObject.message = 'Login successful!'
   } catch (error) {
-    returnObject.error = "An error occurred during login.";
-    console.log(error);
+    returnObject.error = 'An error occurred during login.'
+    console.log(error)
   }
 
-  return returnObject;
+  return returnObject
 }
 
 // Fixing the register function
 export async function register(previousState: any, formdata: FormData) {
-  const returnObject: TReturnObject & { confirm: string[] | undefined | null } =
-    {
-      email: undefined,
-      password: undefined,
-      confirm: undefined,
-      error: null,
-      success: false,
-      message: null,
-    };
+  const returnObject: TReturnObject & { confirm: string[] | undefined | null } = {
+    email: undefined,
+    password: undefined,
+    confirm: undefined,
+    error: null,
+    success: false,
+    message: null
+  }
 
-  const email = formdata.get("email") as string;
-  const password = formdata.get("password") as string;
-  const confirmPassword = formdata.get("confirm-password") as string;
+  const email = formdata.get('email') as string
+  const password = formdata.get('password') as string
+  const confirmPassword = formdata.get('confirm-password') as string
 
   // Validate email, password, and confirmPassword
   const validationResult = await registerSchema.safeParseAsync({
     email,
     password,
-    confirmPassword,
-  });
+    confirmPassword
+  })
 
   if (!validationResult.success) {
-    const { email, password, confirmPassword } =
-      validationResult.error.flatten().fieldErrors;
-    returnObject.email = email;
-    returnObject.password = password;
-    returnObject.confirm = confirmPassword;
-    return returnObject;
+    const { email, password, confirmPassword } = validationResult.error.flatten().fieldErrors
+    returnObject.email = email
+    returnObject.password = password
+    returnObject.confirm = confirmPassword
+    return returnObject
   }
 
   // Check if the user already exists
   try {
     const existingUser = await db.query.userTable.findFirst({
-      where: sql`${userTable.email} = ${email}`,
-    });
+      where: sql`${userTable.email} = ${email}`
+    })
 
     if (existingUser) {
-      returnObject.error = "User already exists, please sign in.";
-      return returnObject;
+      returnObject.error = 'User already exists, please sign in.'
+      return returnObject
     }
 
     // Hash password and create user
-    const hashedPassword = await new Argon2id().hash(password);
-    const userId = v4();
+    const hashedPassword = await new Argon2id().hash(password)
+    const userId = v4()
 
     await db.insert(userTable).values({
       id: userId,
       email,
       hashedPassword,
       roleId: Roles.user,
-      profilePicture: `https://robohash.org/${userId}`,
-    });
+      profilePicture: `https://robohash.org/${userId}`
+    })
 
     // Create a session and session cookie
     const session = await lucia.createSession(userId, {
       expiresIn: 60 * 60 * 24 * 30,
-      httpOnly: true,
-    });
-    const sessionCookie = lucia.createSessionCookie(session.id);
-    cookies().set(
-      sessionCookie.name,
-      sessionCookie.value,
-      sessionCookie.attributes,
-    );
+      httpOnly: true
+    })
+    const sessionCookie = lucia.createSessionCookie(session.id)
+    cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
 
     // Set success message
-    returnObject.success = true;
-    returnObject.message = "Registration successful!";
+    returnObject.success = true
+    returnObject.message = 'Registration successful!'
   } catch (error) {
-    returnObject.error = "An error occurred during registration.";
-    console.log(error);
+    returnObject.error = 'An error occurred during registration.'
+    console.log(error)
   }
 
-  return returnObject;
+  return returnObject
 }
 
 // Logout Route
 export async function logout() {
-  const blankSession = lucia.createBlankSessionCookie();
-  cookies().set(blankSession.name, blankSession.value, blankSession.attributes);
-  cookies().delete("google_code_verifier");
-  cookies().delete("google_state");
-  return true;
+  const blankSession = lucia.createBlankSessionCookie()
+  cookies().set(blankSession.name, blankSession.value, blankSession.attributes)
+  cookies().delete('google_code_verifier')
+  cookies().delete('google_state')
+  return true
 }
 
 // Google auth
 export async function googleAuth() {
-  console.log("google action");
-  const state = generateState();
-  const codeVerifier = generateCodeVerifier();
+  console.log('google action')
+  const state = generateState()
+  const codeVerifier = generateCodeVerifier()
   const consentUrl = await google.createAuthorizationURL(state, codeVerifier, {
-    scopes: ["email", "profile", "openid"],
-  });
-  cookies().set("google_state", state, {
+    scopes: ['email', 'profile', 'openid']
+  })
+  cookies().set('google_state', state, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-  });
-  cookies().set("google_code_verifier", codeVerifier, {
+    secure: process.env.NODE_ENV === 'production'
+  })
+  cookies().set('google_code_verifier', codeVerifier, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-  });
-  redirect(consentUrl.toString());
+    secure: process.env.NODE_ENV === 'production'
+  })
+  redirect(consentUrl.toString())
 }
 
 export async function createBounty(previousState: any, formdata: FormData) {
@@ -216,17 +202,17 @@ export async function createBounty(previousState: any, formdata: FormData) {
     deadline: undefined as string[] | undefined,
     attachments: undefined as string[] | undefined,
     error: null as null | string,
-    success: false,
-  };
-  console.log(formdata);
-  const title = formdata.get("title") as string;
-  const description = formdata.get("description") as string;
-  const tags = formdata.get("tags");
-  const communicationMethod = formdata.get("communicationMethod") as string;
-  const budget = formdata.get("budget");
-  const currency = formdata.get("currency");
-  const deadline = new Date(formdata.get("deadline") as string);
-  const attachments = formdata.get("attachments");
+    success: false
+  }
+  console.log(formdata)
+  const title = formdata.get('title') as string
+  const description = formdata.get('description') as string
+  const tags = formdata.get('tags')
+  const communicationMethod = formdata.get('communicationMethod') as string
+  const budget = formdata.get('budget')
+  const currency = formdata.get('currency')
+  const deadline = new Date(formdata.get('deadline') as string)
+  const attachments = formdata.get('attachments')
 
   const validationResult = await bountySchema.safeParseAsync({
     title,
@@ -235,51 +221,44 @@ export async function createBounty(previousState: any, formdata: FormData) {
     communicationMethod,
     budget,
     currency,
-    deadline,
-  });
-  console.log("sucuess", validationResult.success);
+    deadline
+  })
+  console.log('sucuess', validationResult.success)
   if (!validationResult.success) {
-    const {
-      title,
-      description,
-      tags,
-      communicationMethod,
-      budget,
-      currency,
-      deadline,
-    } = validationResult.error.flatten().fieldErrors;
-    console.log("fieldErrors", validationResult.error.flatten().fieldErrors);
-    returnObject.title = title;
-    returnObject.description = description;
-    returnObject.tags = tags;
-    returnObject.communicationMethod = communicationMethod;
-    returnObject.budget = budget;
-    returnObject.currency = currency;
-    returnObject.deadline = deadline;
-    return returnObject;
+    const { title, description, tags, communicationMethod, budget, currency, deadline } =
+      validationResult.error.flatten().fieldErrors
+    console.log('fieldErrors', validationResult.error.flatten().fieldErrors)
+    returnObject.title = title
+    returnObject.description = description
+    returnObject.tags = tags
+    returnObject.communicationMethod = communicationMethod
+    returnObject.budget = budget
+    returnObject.currency = currency
+    returnObject.deadline = deadline
+    return returnObject
   }
-  const bountyId = v4();
+  const bountyId = v4()
 
-  const sessionId = cookies().get(lucia.sessionCookieName)?.value || null;
-  const { session, user } = await lucia.validateSession(sessionId!);
+  const sessionId = cookies().get(lucia.sessionCookieName)?.value || null
+  const { session, user } = await lucia.validateSession(sessionId!)
   if (!session || !user) {
-    returnObject.error = "Invalid session or user.";
-    return returnObject;
+    returnObject.error = 'Invalid session or user.'
+    return returnObject
   }
   const bounty = await db.insert(bountyTable).values({
     id: bountyId,
     posterId: user.id,
     description,
-    tags: tags?.toString().split(","),
+    tags: tags?.toString().split(','),
     title,
-    communicationMethod,
-  });
+    communicationMethod
+  })
   if (bounty) {
-    returnObject.success = true;
-    return returnObject;
+    returnObject.success = true
+    return returnObject
   } else {
-    returnObject.error = "An error occurred while creating bounty.";
-    returnObject.success = false;
-    return returnObject;
+    returnObject.error = 'An error occurred while creating bounty.'
+    returnObject.success = false
+    return returnObject
   }
 }

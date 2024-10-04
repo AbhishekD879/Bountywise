@@ -1,86 +1,80 @@
 // components/HunterEnrollmentExpertise.tsx (Client Component)
-"use client";
-import { useState, useRef } from "react";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+'use client'
+import { useState, useRef } from 'react'
+import { Badge } from '@/components/ui/badge'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
 
-const predefinedExpertise = ["Law", "Finance", "Tech", "Marketing", "Design"];
+const predefinedExpertise = ['Law', 'Finance', 'Tech', 'Marketing', 'Design']
 
 export default function HunterEnrollmentExpertise({
   expertise,
-  setExpertise,
+  setExpertise
 }: {
-  expertise: string[];
-  setExpertise: any;
+  expertise: string[]
+  setExpertise: any
 }) {
-  const [newExpertise, setNewExpertise] = useState("");
-  const newExpertiseInputRef = useRef<HTMLInputElement>(null);
+  const [newExpertise, setNewExpertise] = useState('')
+  const newExpertiseInputRef = useRef<HTMLInputElement>(null)
 
   const handleExpertiseChange = (value: string) => {
     if (expertise.includes(value)) {
-      setExpertise(expertise.filter((e) => e !== value));
+      setExpertise(expertise.filter((e) => e !== value))
     } else {
-      setExpertise([...expertise, value]);
+      setExpertise([...expertise, value])
     }
-  };
+  }
 
   const handleAddNewExpertise = () => {
     if (newExpertise && !expertise.includes(newExpertise)) {
-      setExpertise([...expertise, newExpertise]);
-      setNewExpertise("");
+      setExpertise([...expertise, newExpertise])
+      setNewExpertise('')
       if (newExpertiseInputRef.current) {
-        newExpertiseInputRef.current.focus();
+        newExpertiseInputRef.current.focus()
       }
     }
-  };
+  }
 
   return (
-    <div className="space-y-2">
+    <div className='space-y-2'>
       <Label>Fields of Expertise</Label>
-      <div className="flex flex-wrap gap-2 mb-2">
+      <div className='mb-2 flex flex-wrap gap-2'>
         {predefinedExpertise.map((field) => (
           <Badge
             key={field}
-            variant={expertise.includes(field) ? "default" : "outline"}
-            className={`cursor-pointer ${
-              expertise.includes(field) ? "bg-orange-500" : ""
-            }`}
+            variant={expertise.includes(field) ? 'default' : 'outline'}
+            className={`cursor-pointer ${expertise.includes(field) ? 'bg-orange-500' : ''}`}
             onClick={() => handleExpertiseChange(field)}
           >
             {field}
           </Badge>
         ))}
       </div>
-      <div className="flex gap-2">
+      <div className='flex gap-2'>
         <Input
           ref={newExpertiseInputRef}
-          placeholder="Add custom expertise"
+          placeholder='Add custom expertise'
           value={newExpertise}
           onChange={(e) => setNewExpertise(e.target.value)}
           onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              handleAddNewExpertise();
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              handleAddNewExpertise()
             }
           }}
-          className="border-gray-300"
+          className='border-gray-300'
         />
-        <Button
-          type="button"
-          onClick={handleAddNewExpertise}
-          className="bg-orange-500 hover:bg-orange-600 text-white"
-        >
+        <Button type='button' onClick={handleAddNewExpertise} className='bg-orange-500 text-white hover:bg-orange-600'>
           Add
         </Button>
       </div>
-      <div className="flex flex-wrap gap-2 mt-2">
+      <div className='mt-2 flex flex-wrap gap-2'>
         {expertise.map((field) => (
           <Badge
             key={field}
-            variant="default"
-            className="bg-orange-500 cursor-pointer"
+            variant='default'
+            className='cursor-pointer bg-orange-500'
             onClick={() => handleExpertiseChange(field)}
           >
             {field} ✕
@@ -88,5 +82,5 @@ export default function HunterEnrollmentExpertise({
         ))}
       </div>
     </div>
-  );
+  )
 }

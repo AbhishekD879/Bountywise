@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "npx prettier . --write"
+    "format": "npx prettier --check --ignore-path .gitignore .",
+    "format:fix": "npx prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@google/generative-ai": "^0.20.0",
@@ -58,6 +59,8 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
     "postcss": "^8",
+    "prettier-plugin-hermes-parser": "^0.24.0",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }

@@ -1,76 +1,74 @@
 // components/NewBountyForm.tsx (Client Component)
-"use client";
+'use client'
 
-import { useState } from "react";
-import BountyFormLayout from "./BountyFormLayout";
-import BountyTitle from "./BountyTitle";
-import BountyDescription from "./BountyDescription";
-import BountyTags from "./BountyTags";
-import BountyCommunicationMethod from "./BountyCommunicationMethod";
-import BountyAttachments from "./BountyAttachments";
-import BountyDeadline from "./BountyDeadline";
-import BountyStepNavigation from "./BountyStepNavigation";
+import { useState } from 'react'
+import BountyFormLayout from './BountyFormLayout'
+import BountyTitle from './BountyTitle'
+import BountyDescription from './BountyDescription'
+import BountyTags from './BountyTags'
+import BountyCommunicationMethod from './BountyCommunicationMethod'
+import BountyAttachments from './BountyAttachments'
+import BountyDeadline from './BountyDeadline'
+import BountyStepNavigation from './BountyStepNavigation'
 
 interface Attachment {
-  file: File;
-  id: string;
+  file: File
+  id: string
 }
 
 export default function NewBountyForm() {
-  const [step, setStep] = useState(1);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [tags, setTags] = useState<string[]>([]);
-  const [communicationMethod, setCommunicationMethod] = useState("chat");
-  const [deadline, setDeadline] = useState<Date | undefined>();
-  const [attachments, setAttachments] = useState<Attachment[]>([]);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [step, setStep] = useState(1)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [tags, setTags] = useState<string[]>([])
+  const [communicationMethod, setCommunicationMethod] = useState('chat')
+  const [deadline, setDeadline] = useState<Date | undefined>()
+  const [attachments, setAttachments] = useState<Attachment[]>([])
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   // Validation for step 1 (title, description, and tags)
   const validateStep1 = () => {
-    const newErrors: Record<string, string> = {};
-    if (!title.trim()) newErrors.title = "Title is required";
-    if (description.length < 50)
-      newErrors.description = "Description must be at least 50 characters";
-    if (tags.length === 0) newErrors.tags = "Please select at least one tag";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    const newErrors: Record<string, string> = {}
+    if (!title.trim()) newErrors.title = 'Title is required'
+    if (description.length < 50) newErrors.description = 'Description must be at least 50 characters'
+    if (tags.length === 0) newErrors.tags = 'Please select at least one tag'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   // Validation for step 2 (communication method)
   const validateStep2 = () => {
-    const newErrors: Record<string, string> = {};
-    if (!communicationMethod)
-      newErrors.communicationMethod = "Please select a communication method";
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+    const newErrors: Record<string, string> = {}
+    if (!communicationMethod) newErrors.communicationMethod = 'Please select a communication method'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   // Handle the "Next" button click to proceed to the next step
   const handleNext = () => {
     if (step === 1 && validateStep1()) {
-      setStep(2);
+      setStep(2)
     }
-  };
+  }
 
   // Handle the form submission
   const handleSubmit = async () => {
-    const res = await fetch("/api/private/ms/bounty/create-bounty", {
-      credentials: "include",
-    });
-    console.log("res:", res);
+    const res = await fetch('/api/private/ms/bounty/create-bounty', {
+      credentials: 'include'
+    })
+    console.log('res:', res)
     if (validateStep2()) {
-      console.log("Form submitted:", {
+      console.log('Form submitted:', {
         title,
         description,
         tags,
         communicationMethod,
         deadline,
-        attachments,
-      });
+        attachments
+      })
       // Place logic to submit form data to the server here
     }
-  };
+  }
 
   // return (
 
@@ -120,8 +118,8 @@ export default function NewBountyForm() {
   // );
 
   return (
-    <div className="h-[calc(100%_-_76px)] bg-gradient-to-br from-[#ff5722] to-[#ff9800] flex items-center justify-center p-4">
+    <div className='flex h-[calc(100%_-_76px)] items-center justify-center bg-gradient-to-br from-[#ff5722] to-[#ff9800] p-4'>
       <h1>New Bounty</h1>
     </div>
-  );
+  )
 }

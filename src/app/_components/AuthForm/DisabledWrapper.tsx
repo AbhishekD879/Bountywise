@@ -1,11 +1,11 @@
-import { Ban } from "lucide-react";
+import { Ban } from 'lucide-react'
 
 const DisabledWrapper = () => {
   return (
-    <div className="w-full h-full backdrop:blur-xl flex justify-center items-center absolute z-10 top-0 left-0">
-      <Ban className="text-red-400" height="24" width="24" />
+    <div className='absolute left-0 top-0 z-10 flex h-full w-full items-center justify-center backdrop:blur-xl'>
+      <Ban className='text-red-400' height='24' width='24' />
     </div>
-  );
-};
+  )
+}
 
-export default DisabledWrapper;
+export default DisabledWrapper

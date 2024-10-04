@@ -1,14 +1,9 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
-export const flash = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+import { GoogleGenerativeAI } from '@google/generative-ai'
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!)
+export const flash = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
 
-export async function generateBountyDescription(
-  title: string,
-  description: string,
-) {
-  console.log(
-    `Generating bounty description for title: ${title}, description: ${description}`,
-  );
+export async function generateBountyDescription(title: string, description: string) {
+  console.log(`Generating bounty description for title: ${title}, description: ${description}`)
   let prompt = `
   "Strict Rules: 
   1)Don't Return markdown
@@ -52,12 +47,12 @@ Generated Description:
 Objective: I need someone to conduct a mock interview for Paytm.
 Requirements: Preferably someone who has worked at Paytm or has been interviewed there.
 Expectations: You should know the rounds conducted during the interview process and the type of questions typically asked
-    `;
-  const result = await flash.generateContent(prompt);
-  const resultText = result.response.text();
+    `
+  const result = await flash.generateContent(prompt)
+  const resultText = result.response.text()
   //   const resultText = "dummy text";
-  console.log(`Generated bounty description:`, resultText);
-  return resultText;
+  console.log(`Generated bounty description:`, resultText)
+  return resultText
 }
 
 export async function rewriteBountyTitle(title: string) {
@@ -72,9 +67,9 @@ export async function rewriteBountyTitle(title: string) {
 "
 
 "Rewrite the title: [${title}] to be clear, professional, and under 10 words. Focus on conveying the main intent briefly and effectively."
-`;
+`
 
-  const result = await flash.generateContent(prompt);
-  const resultText = result.response.text();
-  return resultText;
+  const result = await flash.generateContent(prompt)
+  const resultText = result.response.text()
+  return resultText
 }

@@ -1,11 +1,11 @@
-import Services from "./_components/Services";
-import Hero from "./_components/Hero";
+import Services from './_components/Services'
+import Hero from './_components/Hero'
 
 export default function Home() {
   return (
-    <main className="p-6 space-y-8 flex flex-col items-center">
+    <main className='flex flex-col items-center space-y-8 p-6'>
       <Hero />
       <Services />
     </main>
-  );
+  )
 }

@@ -1,23 +1,21 @@
-import { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react'
 
-const openAuthFormEventName = "OPEN_AUTH_FORM";
-const closeAuthEventName = "CLOSE_AUTH_FORM";
-export const openAuthFormEvent = new Event(openAuthFormEventName);
-export const closeAuthFormEvent = new Event(closeAuthEventName);
+const openAuthFormEventName = 'OPEN_AUTH_FORM'
+const closeAuthEventName = 'CLOSE_AUTH_FORM'
+export const openAuthFormEvent = new Event(openAuthFormEventName)
+export const closeAuthFormEvent = new Event(closeAuthEventName)
 
-export const useCreateAuthFormListner = (
-  setFormState: Dispatch<SetStateAction<boolean>>,
-) => {
+export const useCreateAuthFormListner = (setFormState: Dispatch<SetStateAction<boolean>>) => {
   useEffect(() => {
     function openAuthForm() {
-      setFormState(true);
+      setFormState(true)
     }
     function closeAuthForm() {
-      setFormState(false);
+      setFormState(false)
     }
-    document.removeEventListener(openAuthFormEventName, openAuthForm);
-    document.removeEventListener(closeAuthEventName, closeAuthForm);
-    document.addEventListener(openAuthFormEventName, openAuthForm);
-    document.addEventListener(closeAuthEventName, closeAuthForm);
-  }, [setFormState]);
-};
+    document.removeEventListener(openAuthFormEventName, openAuthForm)
+    document.removeEventListener(closeAuthEventName, closeAuthForm)
+    document.addEventListener(openAuthFormEventName, openAuthForm)
+    document.addEventListener(closeAuthEventName, closeAuthForm)
+  }, [setFormState])
+}

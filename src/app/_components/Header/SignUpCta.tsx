@@ -1,8 +1,8 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import { Modal } from "../Modal";
-import CONSTANT from "@/constants";
-import AuthForm from "../AuthForm/AuthForm";
+'use client'
+import { Button } from '@/components/ui/button'
+import { Modal } from '../Modal'
+import CONSTANT from '@/constants'
+import AuthForm from '../AuthForm/AuthForm'
 
 // Define JoinAsAHunterCta component
 export const SignUpCta: React.FC = () => {
@@ -10,10 +10,10 @@ export const SignUpCta: React.FC = () => {
     <Modal
       ModalComponent={AuthForm}
       modelProps={{
-        isSignUpMode: true,
+        isSignUpMode: true
       }}
     >
       <Button>{CONSTANT.SIGNUP_CTA}</Button>
     </Modal>
-  );
-};
+  )
+}

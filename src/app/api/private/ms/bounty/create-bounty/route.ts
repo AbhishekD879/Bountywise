@@ -1,6 +1,6 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
-import db from "@/lib/tembo.db";
+import { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
+import db from '@/lib/tembo.db'
 export const GET = async (req: Request, res: Response) => {
   // const cookies = req.headers.get("cookie") || "";
   // const response = await fetch("http://localhost:4000/dev/api/bounty/", {
@@ -15,4 +15,4 @@ export const GET = async (req: Request, res: Response) => {
   // const data = await response.json();
   // return NextResponse.json(data);
   // db.insert()
-};
+}
