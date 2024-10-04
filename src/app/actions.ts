@@ -272,7 +272,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
     id: bountyId,
     posterId: user.id,
     description,
-    tags:tags?.toString().split(","),
+    tags: tags?.toString().split(","),
     title,
     communicationMethod,
   });

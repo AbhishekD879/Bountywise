@@ -105,7 +105,7 @@ export default function BountyDescription({ error, bountyTitle }: any) {
           ]}
         />
       </div>
-      <textarea hidden={true} value={description} name="description"/>
+      <textarea hidden={true} value={description} name="description" />
       <p className="text-sm text-[#46515e] mt-1">
         {description.length} characters
       </p>

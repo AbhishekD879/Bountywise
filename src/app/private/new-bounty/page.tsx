@@ -15,7 +15,6 @@ export default function NewBountyPage() {
   const [state, createBountyAction] = useFormState(createBounty, null);
   const [titleForAi, setTitleForAi] = useState("");
   const [step, setStep] = useState(1);
-  const titleRef = useRef("");
   const handleNextStep = () => {
     setStep((prevStep) => prevStep + 1);
   };

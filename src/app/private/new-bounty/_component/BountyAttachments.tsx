@@ -40,11 +40,11 @@ export default function BountyAttachments() {
         Attachments (Optional)
       </Label>
       <div
-        className="border-2 border-dashed border-[#d4d4d4] rounded-lg p-4 text-center cursor-pointer hover:border-[#ff5722] transition-all duration-300"
+        className="border-2 border-dashed border-[#d4d4d4] rounded-lg p-4 text-center cursor-pointer hover:border-[#ff5722] transition-all duration-300 flex justify-center items-center gap-3"
         onClick={() => fileInputRef.current?.click()}
       >
-        <Upload className="mx-auto h-12 w-12 text-[#46515e]" />
-        <p className="mt-2 text-sm text-[#46515e]">
+        <Upload className="h-8 w-8 text-[#46515e]" />
+        <p className="mt-2 text-md text-[#46515e]">
           Click or drag files to upload
         </p>
         <Input

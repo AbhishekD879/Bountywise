@@ -25,13 +25,13 @@ const CommingSoon: React.FC<PropsWithChildren<CommingSoonProps>> = ({
           className,
         )}
       >
-        <div className="flex flex-col items-center space-y-2">
+        <div className="flex items-center absolute top-1 right-1 gap-1">
           <AlertCircle
-            width={40}
-            height={40}
+            width={12}
+            height={12}
             className="text-[#ff5722] animate-pulse"
           />
-          <span className="text-lg text-[#969ba1]  font-bold">{message}</span>
+          <span className="text-sm text-[#969ba1]  font-bold">{message}</span>
         </div>
       </div>
     </div>

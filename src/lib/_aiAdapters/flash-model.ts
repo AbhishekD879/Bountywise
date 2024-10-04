@@ -10,6 +10,12 @@ export async function generateBountyDescription(
     `Generating bounty description for title: ${title}, description: ${description}`,
   );
   let prompt = `
+  "Strict Rules: 
+  1)Don't Return markdown
+  2) Don't use any offensive or inappropriate language
+  3) Don't use any explicit or suggestive language
+  4) Return Response as if You are the Poster
+  "
 "Generate a concise, structured bounty description based on the provided title: [${title}] and any additional description: [${description}] from the user. The response should be brief but informative, clearly outlining what the Bounty Poster is looking for, with specific tasks or expectations included. If the user has typed any description, incorporate it appropriately into the response.
 
 Use the following structure:
@@ -51,5 +57,21 @@ Expectations: You should know the rounds conducted during the interview process 
   const resultText = result.response.text();
   //   const resultText = "dummy text";
   console.log(`Generated bounty description:`, resultText);
+  return resultText;
+}
+
+export async function rewriteBountyTitle(title: string) {
+  const prompt = `
+"Guidelines:
+1) The title should not exceed 10 words.
+2) Avoid markdown, offensive, inappropriate, explicit, or suggestive language.
+3) The title should clearly convey a 'help wanted' request, if applicable.
+4) Be concise and to the point."
+
+"Rewrite the title: [${title}] to be clear, professional, and under 10 words. Focus on conveying the main intent briefly and effectively."
+`;
+
+  const result = await flash.generateContent(prompt);
+  const resultText = result.response.text();
   return resultText;
 }
