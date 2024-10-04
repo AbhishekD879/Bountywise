@@ -6,7 +6,6 @@ import { lucia } from "@/lib/lucia";
 import { google } from "@/lib/oAuth/googleOAuth";
 import { Roles } from "@/lib/roles";
 import db from "@/lib/tembo.db";
-import { safeExec } from "@/lib/utils";
 import { bountyTable, userTable } from "@/schema";
 import { generateCodeVerifier, generateState } from "arctic";
 import { sql } from "drizzle-orm";
@@ -14,7 +13,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Argon2id } from "oslo/password";
 import { v4 } from "uuid";
-import { getUser } from "../lib/features/authSlice";
 
 // Define the common return object structure
 interface TReturnObject {
@@ -227,7 +225,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
   const communicationMethod = formdata.get("communicationMethod") as string;
   const budget = formdata.get("budget");
   const currency = formdata.get("currency");
-  const deadline = formdata.get("deadline");
+  const deadline = new Date(formdata.get("deadline") as string);
   const attachments = formdata.get("attachments");
 
   const validationResult = await bountySchema.safeParseAsync({

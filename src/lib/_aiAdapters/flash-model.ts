@@ -66,7 +66,10 @@ export async function rewriteBountyTitle(title: string) {
 1) The title should not exceed 10 words.
 2) Avoid markdown, offensive, inappropriate, explicit, or suggestive language.
 3) The title should clearly convey a 'help wanted' request, if applicable.
-4) Be concise and to the point."
+4) Be concise and to the point.
+5) Only Give One title
+6) Do Not Return markdown
+"
 
 "Rewrite the title: [${title}] to be clear, professional, and under 10 words. Focus on conveying the main intent briefly and effectively."
 `;

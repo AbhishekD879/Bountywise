@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormState } from "react-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,9 +40,15 @@ import {
 
 // Assume this action is defined elsewhere and imported here
 import { createBounty } from "@/app/actions";
-import BountyAttachments from "../private/new-bounty/_component/BountyAttachments";
+import BountyAttachments from "../new-bounty/_component/BountyAttachments";
 import CommingSoon from "@/components/ui/CommingSoon";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const tagOptions = [
   { value: "legal", label: "Legal", icon: "⚖️" },
@@ -62,6 +68,11 @@ export default function NewBountyForm() {
   const [bountyTitle, setBountyTitle] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [deadline, setDeadline] = useState<Date | undefined>(undefined);
+
+  // Refs
+  const titleRef = useRef<HTMLInputElement | null>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
+
   // Typing animation states for title
   const [isTypingTitle, setIsTypingTitle] = useState(false);
   const [typingTextTitle, setTypingTextTitle] = useState("");
@@ -85,8 +96,8 @@ export default function NewBountyForm() {
     }
   }, [isTyping, typingText]);
 
-   // Typing effect for AI-generated title
-   useEffect(() => {
+  // Typing effect for AI-generated title
+  useEffect(() => {
     if (isTypingTitle && typingTextTitle.length > 0) {
       let currentIndex = 0;
 
@@ -111,6 +122,9 @@ export default function NewBountyForm() {
       alert("Please enter a bounty title before generating a description.");
       return;
     }
+    if (descriptionRef.current) {
+      descriptionRef.current.disabled = true;
+    }
     const data = await fetch("/api/private/ms/ai/generateBountyDescription", {
       method: "POST",
       headers: {
@@ -119,7 +133,9 @@ export default function NewBountyForm() {
       body: JSON.stringify({ title: bountyTitle, description }),
     });
     const aiGeneratedText = (await data.json()).description;
-
+    if (descriptionRef.current) {
+      descriptionRef.current.disabled = false;
+    }
     setDescription(""); // Reset description before starting typing
     setTypingText(aiGeneratedText); // Set the full text for typing
     setIsTyping(true); // Start the typing animation
@@ -131,6 +147,9 @@ export default function NewBountyForm() {
       alert("Please enter a bounty title before generating a title.");
       return;
     }
+    if (titleRef.current) {
+      titleRef.current.disabled = true;
+    }
     const data = await fetch("/api/private/ms/ai/rewriteBountyTitle", {
       method: "POST",
       headers: {
@@ -139,7 +158,9 @@ export default function NewBountyForm() {
       body: JSON.stringify({ title: bountyTitle }),
     });
     const aiGeneratedTitle = (await data.json()).title;
-
+    if (titleRef.current) {
+      titleRef.current.disabled = false;
+    }
     setBountyTitle(""); // Reset title before starting typing
     setTypingTextTitle(aiGeneratedTitle); // Set the full title text for typing
     setIsTypingTitle(true); // Start the typing animation
@@ -186,14 +207,22 @@ export default function NewBountyForm() {
               placeholder="e.g., Quick Legal Advice Needed"
               value={bountyTitle}
               onChange={(e) => setBountyTitle(e.target.value)}
+              ref={titleRef}
             />
-            <Button
-              type="button"
-              onClick={handleAiTitleClick}
-              className="absolute top-0 right-2 p-1 bg-transparent hover:bg-[#ff57221a] text-[#ff5722] rounded-full transition-all duration-300"
-            >
-              <Sparkles className="w-5 h-5 animate-pulse" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    onClick={handleAiTitleClick}
+                    className="absolute top-0 right-2 p-1 bg-transparent hover:bg-[#ff57221a] text-[#ff5722] rounded-full transition-all duration-300"
+                  >
+                    <Sparkles className="w-5 h-5 animate-pulse" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>AI-powered title generation</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           {state?.title && (
             <p className="text-[#d9534f] text-sm mt-1">{state.title}</p>
@@ -216,14 +245,24 @@ export default function NewBountyForm() {
               placeholder="Provide a detailed description of your bounty..."
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              ref={descriptionRef}
             />
-            <Button
-              type="button"
-              onClick={handleAiDescriptionClick}
-              className="absolute top-2 right-2 p-1 bg-transparent hover:bg-[#ff57221a] text-[#ff5722] rounded-full transition-all duration-300"
-            >
-              <Sparkles className="w-5 h-5 animate-pulse" />
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    onClick={handleAiDescriptionClick}
+                    className="absolute top-2 right-2 p-1 bg-transparent hover:bg-[#ff57221a] text-[#ff5722] rounded-full transition-all duration-300"
+                  >
+                    <Sparkles className="w-5 h-5 animate-pulse" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  AI-powered Bounty Description generation
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
           {state?.description && (
             <p className="text-[#d9534f] text-sm mt-1">{state.description}</p>
@@ -412,49 +451,74 @@ export default function NewBountyForm() {
   );
 }
 
-const SuccessModel = ({ isOpen }: { isOpen: boolean }) => {
+interface SuccessModelProps {
+  isOpen: boolean;
+}
+
+function SuccessModel({ isOpen }: SuccessModelProps) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!isVisible) return null;
+
   return (
     <div
-      className={`fixed inset-0 bg-[#303841] bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ${
+      className={`fixed inset-0 bg-[#303841] bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300 ${
         isOpen ? "opacity-100" : "opacity-0"
       }`}
+      onClick={() => setIsVisible(false)}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
     >
       <div
-        className={`bg-[#eeeeee] rounded-lg p-8 max-w-md w-full shadow-lg transition-all duration-300 ${
+        className={`bg-[#eeeeee] rounded-2xl p-10 max-w-2xl w-full shadow-2xl transition-all duration-300 ${
           isOpen ? "scale-100" : "scale-95"
         }`}
+        onClick={(e) => e.stopPropagation()}
       >
-        <h2 className="text-2xl font-bold text-center mb-6 text-[#303841]">
+        <h2
+          id="modal-title"
+          className="text-3xl font-bold text-center mb-8 text-[#303841] tracking-tight"
+        >
           Bounty Successfully Created!
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-6">
           <Link
-            href="/private/new-bounty-v2"
-            className="w-full py-3 px-4 bg-[#ff5722] text-[#ffffff] rounded-md hover:bg-opacity-90 transition-all duration-300 flex items-center justify-center group"
+            href="/new-bounty-v2"
+            className="w-full py-4 px-6 bg-[#ff5722] text-[#ffffff] rounded-lg hover:bg-opacity-90 transition-all duration-300 flex items-center justify-center group shadow-md hover:shadow-lg"
           >
-            <PlusCircle className="mr-2 h-5 w-5" />
-            <span>Create New Bounty</span>
-            <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
+            <PlusCircle className="mr-3 h-6 w-6" />
+            <span className="text-lg font-semibold">Create New Bounty</span>
+            <span className="ml-3 inline-block transition-transform group-hover:translate-x-1">
               →
             </span>
           </Link>
           <Link
             href="testscreens/bountylisting"
-            className="w-full py-3 px-4 bg-[#46515e] text-[#ffffff] rounded-md hover:bg-opacity-90 transition-all duration-300 flex items-center justify-center group"
+            className="w-full py-4 px-6 bg-[#46515e] text-[#ffffff] rounded-lg hover:bg-opacity-90 transition-all duration-300 flex items-center justify-center group shadow-md hover:shadow-lg"
           >
-            <Compass className="mr-2 h-5 w-5" />
-            <span>Explore Bounties</span>
-            <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
+            <Compass className="mr-3 h-6 w-6" />
+            <span className="text-lg font-semibold">Explore Bounties</span>
+            <span className="ml-3 inline-block transition-transform group-hover:translate-x-1">
               →
             </span>
           </Link>
           <Link
             href="/private/dashboard"
-            className="w-full py-3 px-4 bg-[#303841] text-[#ffffff] rounded-md hover:bg-opacity-90 transition-all duration-300 flex items-center justify-center group"
+            className="w-full py-4 px-6 bg-[#303841] text-[#ffffff] rounded-lg hover:bg-opacity-90 transition-all duration-300 flex items-center justify-center group shadow-md hover:shadow-lg"
           >
-            <Eye className="mr-2 h-5 w-5" />
-            <span>View Active Bounties</span>
-            <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">
+            <Eye className="mr-3 h-6 w-6" />
+            <span className="text-lg font-semibold">View Active Bounties</span>
+            <span className="ml-3 inline-block transition-transform group-hover:translate-x-1">
               →
             </span>
           </Link>
@@ -462,4 +526,4 @@ const SuccessModel = ({ isOpen }: { isOpen: boolean }) => {
       </div>
     </div>
   );
-};
+}

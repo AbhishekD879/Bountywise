@@ -4,7 +4,7 @@ export async function POST(req: Request) {
   const { title } = await req.json();
   console.log(title);
   const response = await rewriteBountyTitle(title);
-  console.log("response title", response)
+  console.log("response title", response);
   return new Response(
     JSON.stringify({
       title: response,
