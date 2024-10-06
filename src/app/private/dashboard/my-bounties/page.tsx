@@ -2,8 +2,11 @@ import { Video, Phone, MessageSquare, Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { headers } from 'next/headers'
 
-export default function Page({ userType }: { userType: 'poster' | 'hunter' }) {
+export default function Page({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
+  let userType  = searchParams.role || "hunter" 
+
   return (
     <div className='space-y-6'>
       <div className='flex items-center justify-between'>
