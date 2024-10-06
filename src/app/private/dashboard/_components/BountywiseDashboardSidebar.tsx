@@ -23,10 +23,10 @@ export default function BountyWiseSidebar() {
   const router = useRouter()
   return (
     // hover:w-64
-    <aside className='w-64 bg-[#303841] flex flex-col items-center py-8 transition-all duration-300  group h-full'>
+    <aside className='group flex w-16 flex-col items-center bg-[#303841] py-8 transition-all duration-300 hover:w-64'>
       <div className='mb-8 flex items-center justify-center'>
         <Zap className='w-10 h-10 text-[#ff5722]' />
-        <span className='ml-4 text-[#ffffff] font-bold text-xl  group-hover:inline'>BountyWise</span>
+        <span className='ml-4 hidden text-xl font-bold text-[#ffffff] group-hover:inline'>BountyWise</span>
       </div>
       <nav className='flex-1 w-full'>
         <ul className='space-y-4'>
@@ -45,7 +45,7 @@ export default function BountyWiseSidebar() {
                         }`}
                       >
                         <item.icon className='w-6 h-6' />
-                        <span className='ml-4  group-hover:inline whitespace-nowrap overflow-hidden'>{item.name}</span>
+                        <span className='ml-4 hidden overflow-hidden whitespace-nowrap group-hover:inline'>{item.name}</span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side='right' className='bg-[#303841] text-[#ffffff]'>
@@ -75,7 +75,7 @@ export default function BountyWiseSidebar() {
                   }}
                 >
                   <User className='w-6 h-6' />
-                  <span className='ml-4 inline'>Switch View</span>
+                  <span className='ml-4 hidden group-hover:inline'>Switch View</span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent side='right' className='bg-[#303841] text-[#ffffff]'>
