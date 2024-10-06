@@ -295,6 +295,62 @@ export default function NewBountyForm() {
           </div>
           <input type='hidden' name='tags' value={JSON.stringify(tags)} />
           {state?.tags && <p className='mt-1 text-sm text-[#d9534f]'>{state.tags}</p>}
+        </div><div className='rounded-lg p-1 transition-all duration-300'>
+          <Label htmlFor='tags' className='flex items-center text-lg font-semibold text-[#46515e]'>
+            <Tag className='mr-2 h-5 w-5 text-[#ff5722]' />
+            Tags
+          </Label>
+          <div className='mt-1 flex flex-wrap gap-2'>
+            <Select onValueChange={handleAddTag}>
+              <SelectTrigger className='w-full border-[#d4d4d4] transition-all duration-300 focus:ring-2 focus:ring-[#ff5722] md:w-auto'>
+                <SelectValue placeholder='Select tags' />
+              </SelectTrigger>
+              <SelectContent>
+                {tagOptions.map((tag) => (
+                  <SelectItem key={tag.value} value={tag.value}>
+                    <span className='flex items-center'>
+                      <span className='mr-2'>{tag.icon}</span>
+                      {tag.label}
+                    </span>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className='flex flex-1 gap-2'>
+              <Input
+                placeholder='Custom tag'
+                value={customTag}
+                onChange={(e) => setCustomTag(e.target.value)}
+                className='flex-1 border-[#d4d4d4] transition-all duration-300 focus:ring-2 focus:ring-[#ff5722]'
+              />
+              <Button
+                type='button'
+                onClick={handleAddCustomTag}
+                className='bg-[#ff5722] text-white transition-all duration-300 hover:bg-[#ff784e]'
+              >
+                Add
+              </Button>
+            </div>
+          </div>
+          <div className='mt-2 flex flex-wrap gap-2'>
+            {tags.map((tag) => (
+              <span
+                key={tag}
+                className='animate-fadeIn flex items-center rounded-full bg-[#ff57221a] px-2 py-1 text-sm text-[#ff5722]'
+              >
+                {tag}
+                <button
+                  type='button'
+                  onClick={() => handleRemoveTag(tag)}
+                  className='ml-2 text-[#ff5722] transition-colors duration-300 hover:text-[#d9534f]'
+                >
+                  <X className='h-3 w-3' />
+                </button>
+              </span>
+            ))}
+          </div>
+          <input type='hidden' name='tags' value={JSON.stringify(tags)} />
+          {state?.tags && <p className='mt-1 text-sm text-[#d9534f]'>{state.tags}</p>}
         </div>
 
         <div className='grid grid-cols-1 gap-6 align-middle md:grid-cols-2'>
