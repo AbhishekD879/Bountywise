@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { Clock } from 'lucide-react'
+import { Bookmark, Clock } from 'lucide-react'
 import BountyCardFooter from './BountyCardFooter'
 
 export default function BountyCard() {
@@ -12,9 +12,12 @@ export default function BountyCard() {
           <CardTitle className='text-xl font-bold text-[#303841]'>
             Need help with React component optimization
           </CardTitle>
-          <Badge variant='secondary' className='bg-[#ff57221a] text-[#ff5722] flex items-center'>
-            <span>$100 - $500</span>
-          </Badge>
+          <div className='flex items-center gap-2'>
+            <Badge variant='secondary' className='bg-[#ff57221a] text-[#ff5722] flex items-center'>
+              <span>$100 - $500</span>
+            </Badge>
+            <Bookmark className='h-5 w-5 mr-2 cursor-pointer' />
+          </div>
         </div>
       </CardHeader>
       <CardContent>
