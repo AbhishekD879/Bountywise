@@ -101,6 +101,14 @@ export const notificationTable = pgTable('notifications', {
   createdAt: timestamp('created_at').defaultNow().notNull()
 })
 
+// Import necessary Drizzle ORM functions
+export const quickFiltersTable = pgTable('quick_filters', {
+  id: uuid('id').primaryKey(),
+  name: varchar('name', { length: 128 }).notNull(), // Filter name, e.g., "Urgent Bounties"
+  filterQuery: varchar('filter_query', { length: 256 }).notNull(), // SQL condition as a string
+});
+
+
 // Consultation sessions between Bounty Posters and Hunters
 export const consultationSessionTable = pgTable('consultation_sessions', {
   id: uuid('id').primaryKey(),

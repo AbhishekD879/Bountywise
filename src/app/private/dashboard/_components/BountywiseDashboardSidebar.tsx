@@ -45,7 +45,9 @@ export default function BountyWiseSidebar() {
                         }`}
                       >
                         <item.icon className='w-6 h-6' />
-                        <span className='ml-4 hidden overflow-hidden whitespace-nowrap group-hover:inline'>{item.name}</span>
+                        <span className='ml-4 hidden overflow-hidden whitespace-nowrap group-hover:inline'>
+                          {item.name}
+                        </span>
                       </button>
                     </TooltipTrigger>
                     <TooltipContent side='right' className='bg-[#303841] text-[#ffffff]'>
