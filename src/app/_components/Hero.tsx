@@ -9,11 +9,11 @@ export default function Hero() {
         <p className='mt-4 text-lg text-[#46515e]'>Post a bounty, connect with professionals, solve your problems.</p>
       </div>
       <div className='flex space-x-4'>
-        <Link href='/private/new-bounty'>
+        <Link href='/private/new-bounty-v2'>
           <Button className='bg-[#ff5722] text-[#ffffff]'>Post a Bounty</Button>
         </Link>
 
-        <Link href='testscreens/bountylisting'>
+        <Link href='/bounties'>
           <Button className='bg-[#46515e] text-[#ffffff]'>Explore Bounties</Button>
         </Link>
       </div>

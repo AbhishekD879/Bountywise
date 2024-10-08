@@ -1,9 +1,8 @@
 import { lucia } from '@/lib/lucia'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   const sessionId = cookies().get(lucia.sessionCookieName)?.value || null
   if (!sessionId) {
     cookies().set('google_code_verifier', '')

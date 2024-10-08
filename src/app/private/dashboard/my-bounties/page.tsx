@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { headers } from 'next/headers'
 
 export default function Page({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
-  let userType  = searchParams.role || "hunter" 
+  let userType = searchParams.role || 'hunter'
 
   return (
     <div className='space-y-6'>

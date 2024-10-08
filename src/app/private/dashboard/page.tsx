@@ -2,8 +2,12 @@ import React from 'react'
 import { Video, DollarSign, Star, Plus, Briefcase } from 'lucide-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-export default function BountyWiseDashboard({ searchParams }: { searchParams: Record<string, string | string[] | undefined> }) {
-  let userType  = searchParams.role || "hunter" 
+export default function BountyWiseDashboard({
+  searchParams
+}: {
+  searchParams: Record<string, string | string[] | undefined>
+}) {
+  let userType = searchParams.role || 'hunter'
 
   return (
     <div className='flex-1 overflow-auto'>

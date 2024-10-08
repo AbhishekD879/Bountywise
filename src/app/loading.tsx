@@ -20,7 +20,6 @@ export default function Loading() {
           </div>
           <div className='flex animate-bounce flex-col items-center' style={{ animationDelay: '200ms' }}>
             <Briefcase className='h-8 w-8 text-[#ff5722]' />
-            <span className='mt-1 text-xs text-[#303841]'>Opportunities</span>
           </div>
           <div className='flex animate-bounce flex-col items-center' style={{ animationDelay: '400ms' }}>
             <Users className='h-8 w-8 text-[#ff5722]' />

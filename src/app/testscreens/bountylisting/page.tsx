@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/badge'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { CalendarIcon, Search, Filter, Star, ChevronLeft, ChevronRight, Zap } from 'lucide-react'
 import { format } from 'date-fns'
+import Link from 'next/link'
 
 const categories = ['Legal', 'Finance', 'Tech', 'Design', 'Writing', 'Marketing']
 const communicationMethods = ['Video', 'Audio', 'Chat']
@@ -55,9 +56,9 @@ export default function BountyListingScreen() {
     <div className='min-h-screen bg-[#f8f9fa] p-4 lg:p-8'>
       <div className='mx-auto max-w-7xl'>
         <nav className='mb-4 text-sm text-[#46515e]'>
-          <a href='#' className='hover:underline'>
+          <Link href='/' className='hover:underline'>
             Home
-          </a>{' '}
+          </Link>{' '}
           &gt; <span className='font-semibold'>Bounties</span>
         </nav>
 
