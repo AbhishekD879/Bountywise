@@ -39,7 +39,7 @@ const QuickFilterCardContent = async ({ params }: { params: Params }) => {
 
   return (
     <CardContent className='p-4'>
-      <div>
+      <div className='flex flex-wrap gap-1'>
         {quickFilters.map(({ name, id }) => (
           <QuickFilterBadge key={id} name={name} id={id} params={params} />
         ))}
@@ -48,25 +48,6 @@ const QuickFilterCardContent = async ({ params }: { params: Params }) => {
   )
 }
 
-// const QuickFilterBadge = ({ params, name, id }: { name: string; id: string; params: Params }) => {
-//   // Check if the current filter is already applied
-//   const filterAlreadyApplied = params['quickFilter'] === id
-//   if (filterAlreadyApplied) {
-//     delete params['quickFilter']
-//   }
-//   const queryString = buildQueryString(params)
-//   const href = filterAlreadyApplied ? `/bounties${queryString}` : `/bounties${queryString}&quickFilter=${id}`
-//   return (
-//     <Link scroll={false} href={href}>
-//       <Badge
-//         variant='outline'
-//         className={`mb-2 mx-1 justify-start last:mb-0  border border-input ${params['quickFilter'] === id ? '!bg-[#ff5722] text-white' : 'bg-white text-[#303841] hover:bg-[#ff57221a] hover:text-[#ff5722]'}`}
-//       >
-//         {name}
-//       </Badge>
-//     </Link>
-//   )
-// }
 
 const QuickFilterBadge = ({ params, name, id }: { name: string; id: string; params: Params }) => {
   const filterAlreadyApplied = params['quickFilter'] === id

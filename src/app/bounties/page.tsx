@@ -4,6 +4,7 @@ import BountyCardContainer from './_components/BountyCardContainer'
 import PostBountySignPosting from './_components/PostBountySignPosting'
 import FeaturedBountiesCard from './_components/FeaturedBountiesCard'
 import QuickFiltersCard from './_components/QuickFiltersCard'
+import TrendingBounties from './_components/TrendingBounties'
 
 export default function page({
   params,

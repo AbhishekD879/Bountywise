@@ -6,6 +6,11 @@ export default async function BountyCardContainer() {
     <>
       <div className='space-y-4'>
         <BountyCard />
+        <BountyCard />
+        <BountyCard />
+        <BountyCard />
+        <BountyCard />
+        <BountyCard />
       </div>
       <BountyPagination />
     </>

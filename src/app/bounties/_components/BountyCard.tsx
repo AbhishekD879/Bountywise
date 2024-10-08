@@ -1,9 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@radix-ui/react-tooltip'
-import { Zap } from 'lucide-react'
+import { Clock } from 'lucide-react'
+import BountyCardFooter from './BountyCardFooter'
 
 export default function BountyCard() {
   return (
@@ -13,8 +12,8 @@ export default function BountyCard() {
           <CardTitle className='text-xl font-bold text-[#303841]'>
             Need help with React component optimization
           </CardTitle>
-          <Badge variant='secondary' className='bg-[#ff57221a] text-[#ff5722]'>
-            $500
+          <Badge variant='secondary' className='bg-[#ff57221a] text-[#ff5722] flex items-center'>
+            <span>$100 - $500</span>
           </Badge>
         </div>
       </CardHeader>
@@ -43,27 +42,15 @@ export default function BountyCard() {
             </Avatar>
             <span>John Doe</span>
           </div>
-          <span>Deadline: 7 days</span>
+          <div className='flex items-center space-x-4'>
+            <div className='flex items-center'>
+              <Clock className='mr-1 h-4 w-4 text-[#46515e]' />
+              <span>3 days left</span>
+            </div>
+          </div>
         </div>
       </CardContent>
-      <CardFooter className='flex justify-between border-t border-[#d4d4d4] pt-4'>
-        <Button variant='outline' className='mr-2 flex-1'>
-          View Details
-        </Button>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button className='flex-1 bg-[#ff5722] text-white hover:bg-[#ff784e]'>
-                <Zap className='mr-2 h-4 w-4' />
-                Quick Apply
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Apply with your default profile and resume</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </CardFooter>
+      <BountyCardFooter />
     </Card>
   )
 }
