@@ -207,7 +207,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
   console.log(formdata)
   const title = formdata.get('title') as string
   const description = formdata.get('description') as string
-  const tags = formdata.get('tags')
+  const tags = formdata.get('tags')  as string
   const communicationMethod = formdata.get('communicationMethod') as string
   const budget = formdata.get('budget')
   const currency = formdata.get('currency')
@@ -249,7 +249,7 @@ export async function createBounty(previousState: any, formdata: FormData) {
     id: bountyId,
     posterId: user.id,
     description,
-    tags: tags?.toString().split(','),
+    tags: tags?.split(","),
     title,
     communicationMethod
   })

@@ -15,19 +15,25 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Textarea } from '@/components/ui/textarea'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { DollarSign, Send, Zap } from 'lucide-react'
+import Link from 'next/link'
 import React, { useState } from 'react'
 export default function BountyCardFooter() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   return (
     <>
       <CardFooter className='flex justify-between border-t border-[#d4d4d4] pt-4'>
-        <Button variant='outline' className='mr-2 flex-1'>
-          View Details
-        </Button>
+        <Link className='flex-1 mr-2' href="/testscreens/bountydetail">
+          <Button variant='outline' className='w-full'>
+            View Details
+          </Button>
+        </Link>
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button onClick={()=>setIsDialogOpen(true)} className='flex-1 bg-[#ff5722] text-white hover:bg-[#ff784e]'>
+              <Button
+                onClick={() => setIsDialogOpen(true)}
+                className='flex-1 bg-[#ff5722] text-white hover:bg-[#ff784e]'
+              >
                 <Zap className='mr-2 h-4 w-4' />
                 Quick Apply
               </Button>
@@ -45,9 +51,7 @@ export default function BountyCardFooter() {
               <Zap className='h-6 w-6 text-[#ff5722]' />
               <p className='text-2xl font-bold text-[#303841]'>Quick Apply</p>
             </DialogTitle>
-            <DialogDescription className='text-[#46515e]'>
-              Write A Short Message To Bounty Poster
-            </DialogDescription>
+            <DialogDescription className='text-[#46515e]'>Write A Short Message To Bounty Poster</DialogDescription>
           </DialogHeader>
           <QuotationSubmitionForm />
         </DialogContent>
@@ -64,7 +68,7 @@ const QuotationSubmitionForm = () => {
           <Label htmlFor='quote-type' className='text-[#303841] font-semibold'>
             Quote Type
           </Label>
-          <RadioGroup id='quote-type' className='flex space-x-4'>
+          <RadioGroup defaultValue='perMinute' id='quote-type' className='flex space-x-4'>
             <div className='flex items-center space-x-2'>
               <RadioGroupItem value='perMinute' id='per-minute' />
               <Label htmlFor='per-minute' className='cursor-pointer'>

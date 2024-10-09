@@ -293,7 +293,7 @@ export default function NewBountyForm() {
               </span>
             ))}
           </div>
-          <input type='hidden' name='tags' value={JSON.stringify(tags)} />
+          <input type='hidden' name='tags' value={tags.join(",")} />
           {state?.tags && <p className='mt-1 text-sm text-[#d9534f]'>{state.tags}</p>}
         </div>
 
@@ -432,7 +432,7 @@ function SuccessModel({ isOpen }: SuccessModelProps) {
         </h2>
         <div className='space-y-6'>
           <Link
-            href='/new-bounty-v2'
+            href='/private/new-bounty-v2'
             className='group flex w-full items-center justify-center rounded-lg bg-[#ff5722] px-6 py-4 text-[#ffffff] shadow-md transition-all duration-300 hover:bg-opacity-90 hover:shadow-lg'
           >
             <PlusCircle className='mr-3 h-6 w-6' />
@@ -440,7 +440,7 @@ function SuccessModel({ isOpen }: SuccessModelProps) {
             <span className='ml-3 inline-block transition-transform group-hover:translate-x-1'>→</span>
           </Link>
           <Link
-            href='testscreens/bountylisting'
+            href='/bounties'
             className='group flex w-full items-center justify-center rounded-lg bg-[#46515e] px-6 py-4 text-[#ffffff] shadow-md transition-all duration-300 hover:bg-opacity-90 hover:shadow-lg'
           >
             <Compass className='mr-3 h-6 w-6' />

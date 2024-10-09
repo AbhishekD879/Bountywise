@@ -4,7 +4,7 @@ import BountyCardContainer from './_components/BountyCardContainer'
 import PostBountySignPosting from './_components/PostBountySignPosting'
 import FeaturedBountiesCard from './_components/FeaturedBountiesCard'
 import QuickFiltersCard from './_components/QuickFiltersCard'
-import TrendingBounties from './_components/TrendingBounties'
+import {unstable_noStore as noStore} from "next/cache"
 
 export default function page({
   params,
@@ -14,6 +14,7 @@ export default function page({
   searchParams: { [key: string]: string | string[] | undefined }
 }) {
   console.log("pageSearch",searchParams)
+  noStore()
   return (
     <div className='min-h-screen bg-[#f8f9fa] p-4 lg:p-8'>
       <div className='mx-auto max-w-7xl'>
