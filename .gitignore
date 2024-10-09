@@ -2,6 +2,8 @@
 
 .env
 
+.drizzle
+
 # dependencies
 /node_modules
 /.pnp
